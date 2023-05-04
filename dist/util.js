@@ -1,5 +1,6 @@
 export const [log, w, d] = [console.log, window, document];
 export const NULL = void 0;
+export let incrementRandomInt = 0;
 export function dq(x = "html") {
     return d.querySelector(x);
 }
@@ -45,21 +46,3 @@ export function dom(input, root) {
     }
     root.append(p);
 }
-export const o = {
-    parent: {
-        nodeName: "div",
-        attributes: {
-            "className": "test",
-            "id": "testing"
-        },
-        textNode: "you and me",
-        parent: {
-            nodeName: "span",
-            textNode: "you and us",
-            parent: {
-                nodeName: "pre",
-                textNode: "hello world"
-            }
-        }
-    }
-};

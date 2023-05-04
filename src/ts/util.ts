@@ -13,6 +13,10 @@ export interface _inputDom {
 
 export const NULL = void 0
 
+
+export let incrementRandomInt = 0
+
+
 export function dq(x: string = "html"): HTMLElement | null {
   return d.querySelector(x)
 }
@@ -46,7 +50,6 @@ export function on(element: _element, ev: _events): boolean {
 }
 
 export function dom(input: _inputDom, root: HTMLElement | null) {
-  
   let p, c
  
  for(const [key, value] of Object.entries(input)) {
@@ -65,26 +68,6 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
       dom(value, p) 
       // my own recursion
     }
-  
   }
     root!.append(p)
-}
-
-export const o = {
-  parent: {
-    nodeName: "div",
-    attributes: {
-      "className": "test",
-      "id": "testing"
-    },
-    textNode: "you and me",
-    parent: {
-      nodeName: "span",
-      textNode: "you and us",
-      parent: {
-        nodeName: "pre",
-        textNode: "hello world"
-      }
-    }
-  }
 }
