@@ -1,9 +1,7 @@
-import * as __u from "./util.js"
+import * as _u from "./util.js"
 
 
 fetch("./data.json")
 .then(res => res.json())
-.then(json => __u.log(json))
-.catch(error => __u.log(error))
-
-__u.log("started")
+.then(json => _u.log(json))
+.catch(error => _u.log(error))
