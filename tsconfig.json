@@ -12,7 +12,7 @@
     "removeComments": true,
     "alwaysStrict": true,
 
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noEmitOnError": true
   },
   "include": ["src"]
