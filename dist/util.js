@@ -29,9 +29,9 @@ export function on(element, ev) {
     return element && event ? true : false;
 }
 export function dom(input, root) {
-    let p, c;
+    let p, c, r = /\w{6,}\d?/;
     for (const [key, value] of Object.entries(input)) {
-        if (key !== "parent")
+        if (r.test(key) == false)
             continue;
         p = dce(value.nodeName);
         value.textNode ? (p.textContent = value.textNode) : NULL;
@@ -43,6 +43,6 @@ export function dom(input, root) {
         if (value.parent) {
             dom(value, p);
         }
+        root.append(p);
     }
-    root.append(p);
 }
