@@ -29,20 +29,22 @@ export function on(element, ev) {
     return element && event ? true : false;
 }
 export function dom(input, root) {
-    let p, c, r = /\w{6,}\d?/;
+    let p, r = /\w{4,}\d?/;
     for (const [key, value] of Object.entries(input)) {
-        if (r.test(key) == false)
+        if (!r.test(key))
             continue;
-        p = dce(value.nodeName);
-        value.textNode ? (p.textContent = value.textNode) : NULL;
+        if (value.nodeName)
+            p = dce(value.nodeName);
+        if (value.textNode)
+            p.textContent = value.textNode;
         if (value.attributes) {
             for (const [attrKey, attrName] of Object.entries(value.attributes)) {
                 p[attrKey] = attrName;
             }
         }
-        if (value.parent) {
-            dom(value, p);
-        }
+        if (typeof p === "undefined")
+            continue;
+        dom(value, p);
         root.append(p);
     }
 }

@@ -50,13 +50,14 @@ export function on(element: _element, ev: _events): boolean {
 }
 
 export function dom(input: _inputDom, root: HTMLElement | null) {
-  let p, c
+  let p, r = /\w{4,}\d?/
  
  for(const [key, value] of Object.entries(input)) {
-   if(key !== "parent") continue
+   if(!r.test(key)) continue
     
-    p = dce(value.nodeName)
-    value.textNode ? (p.textContent = value.textNode) : NULL
+    if(value.nodeName) p = dce(value.nodeName)
+    
+    if(value.textNode) p.textContent = value.textNode
     
     if(value.attributes) {
       for(const [attrKey, attrName] of Object.entries(value.attributes)) {
@@ -64,10 +65,11 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
       }
     }
     
-    if(value.parent) {
+    if(typeof p === "undefined") continue 
+    // skip undefined behaviors
+    
       dom(value, p) 
-      // my own recursion
-    }
-  }
+      
     root!.append(p)
+  }
 }
