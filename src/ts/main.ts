@@ -4,17 +4,17 @@ const DP = new Image()
 
 const MAIN = new Promise((resolve, reject) => {
   
-const ALL_DOM_NODES: object = {
+const FIRST_DOM_NODES: object = {
   root_parent: {
       nodeName: "div",
       attributes: {
-        className: "fx col j-spe",
+        className: "fx col j-spe cn",
         id: "root"
       },
     intro_parent: {
       nodeName: "div",
       attributes: {
-        className: "intro fx  j-spe"
+        className: "intro fx  j-spe cn"
       },
       profile: {
         nodeName: "div",
@@ -31,13 +31,35 @@ const ALL_DOM_NODES: object = {
       },
       intro_content: {
         nodeName: "div",
-        textNode: "Hello World"
-      }
+        attributes: {
+          className: "intro__detail fx col j-spe"
+        },
+        heading: {
+          nodeName: "h1",
+          textNode: "Martin のんそです",
+          attributes: {
+            className: "title mix md"
+          }
+        },
+        paragraph: {
+          nodeName: "p",
+          textNode: "こんにちわ 👋, am a Web developer and a great fan of the Japanese cultures and traditions.",
+          attributes: {
+            className: "text dark txt-cn"
+          }
+        }
+      },
     },
+    social_media: {
+      nodeName: "div",
+      attributes: {
+        className: "social"
+      }
+    }
   },
 }
 
-  _u.dom(ALL_DOM_NODES, _u.dq("body"))
+  _u.dom(FIRST_DOM_NODES, _u.dq("body"))
   
 _u.on(".dp", {
   touchstart() {
@@ -52,7 +74,7 @@ _u.on(".dp", {
     for(const pos of ["--x", "--y"]) this.style.removeProperty(pos)
   }
 })
- 
+// _u.log(_u.dq("body"))
   
 }).catch(error => console.warn(error))
 
