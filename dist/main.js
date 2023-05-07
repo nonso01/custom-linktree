@@ -118,8 +118,7 @@ const MAIN = new Promise((resolve, reject) => {
         },
         touchend() {
             this.classList.remove("move");
-        },
-        pointerdown() {
+            this.style.removeProperty("--x");
         }
     });
 }).catch(error => console.warn(error));

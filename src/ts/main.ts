@@ -132,10 +132,8 @@ _u.on(".media", {
 },
   touchend() {
     this.classList.remove("move")
-},
-  pointerdown() {
-    
-  }
+    this.style.removeProperty("--x")
+}
 })
  
  
