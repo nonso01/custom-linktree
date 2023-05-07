@@ -32,7 +32,7 @@ const FIRST_DOM_NODES: object = {
       intro_content: {
         nodeName: "div",
         attributes: {
-          className: "intro__detail fx col j-spe"
+          className: "intro__detail fx col j-spe cn"
         },
         heading: {
           nodeName: "h1",
@@ -53,7 +53,7 @@ const FIRST_DOM_NODES: object = {
     social_media: {
       nodeName: "div",
       attributes: {
-        className: "social"
+        className: "social fx col j-spe cn"
       }
     }
   },
@@ -74,18 +74,36 @@ _u.on(".dp", {
     for(const pos of ["--x", "--y"]) this.style.removeProperty(pos)
   }
 })
+
+ fetch("data.json")
+.then(res => <Promise<{network: object}>>res.json())
+.then(json =>  {
+  const SOCIAL_DOM_NODES: object = {}
+  
+  for(const [key, value] of Object.entries(json?.network)) {
+    SOCIAL_DOM_NODES[key] = {
+     nodeName: "div",
+     textNode: key,
+     attributes: {
+       className: "media fx j-spe cn",
+       id: key
+     }
+    }
+  }
+  
+ _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"))
+ 
+ 
+_u.on(".media", {
+  click() {
+    _u.log(this.id)
+   }
+ })
+
+})
 // _u.log(_u.dq("body"))
   
+
+
 }).catch(error => console.warn(error))
 
-// {
-//   let i = 0
-//   _u.on("html", {
-//     click() {
-//       i++
-//       i > 6 ? (i = 1 ): _u.NULL
-//       _u.log(i)
-//       this.style = `--bg-image: url(/assets/img${i}.jpg);`
-//     }
-//   })
-// }

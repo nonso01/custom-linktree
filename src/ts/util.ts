@@ -1,7 +1,7 @@
 export const [log, w, d] = [console.log, window, document]
 
 /*@ types @*/
-export type _element = string | Element | null
+export type _element = string | Element | Window | null
 
 export interface _events {
   [key: string]: any

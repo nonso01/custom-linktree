@@ -1,22 +1,22 @@
 { 
   "network": {
     "github": {
-    "link": "https://github.com/nonso01",
+    "url": "https://github.com/nonso01",
     "img": "/assets/",
     "id": "github"
   },
   "LinkedIn": {
-    "link": "https://www.linkedin.com/in/nonso-martin-80b221238",
+    "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
     "img": "/assets/",
     "id": "LinkedIn"
   },
   "twitter": {
-    "link": "https://twitter.com/NonsoMartin06",
+    "url": "https://twitter.com/NonsoMartin06",
     "img": "/assets/",
     "id": "twitter"
   },
   "portfolio": {
-   "link": "https://nonso01-test.netlify.app",
+   "url": "https://nonso01-test.netlify.app",
   "img": "/assets/",
   "id": "portfolio"
   }
