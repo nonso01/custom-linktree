@@ -7,11 +7,11 @@ let MIN_TILT_X = 0.1
 const MAIN = new Promise((resolve, reject) => {
   
 const FIRST_DOM_NODES: object = {
-  root_parent: {
+  about_me: {
       nodeName: "div",
       attributes: {
         className: "fx col j-spe cn",
-        id: "root"
+        id: "about"
       },
     intro_parent: {
       nodeName: "div",
@@ -133,7 +133,7 @@ _u.on(".media", {
   touchend() {
     this.classList.remove("move")
 },
-  pointerenter() {
+  pointerdown() {
     
   }
 })
