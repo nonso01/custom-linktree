@@ -70,33 +70,29 @@ const MAIN = new Promise((resolve, reject) => {
                 this.style.removeProperty(pos);
         }
     });
-    fetch("data.json")
-        .then(res => res.json())
-        .then(json => {
-        const SOCIAL_DOM_NODES = {};
-        for (const [key, value] of Object.entries(json?.network)) {
-            SOCIAL_DOM_NODES[key] = {
-                nodeName: "div",
+    const SOCIAL_DOM_NODES = {};
+    for (const [key, value] of Object.entries(_u.data.network)) {
+        SOCIAL_DOM_NODES[key] = {
+            nodeName: "div",
+            attributes: {
+                className: "media fx j-spe cn",
+                id: key,
+                draggable: true,
+            },
+            icon: {
+                nodeName: "img",
                 attributes: {
-                    className: "media fx j-spe cn",
-                    id: key,
-                    draggable: true
-                },
-                icon: {
-                    nodeName: "img",
-                    attributes: {
-                        src: `${value.img}`,
-                        alt: `${key}_icon`,
-                        className: "icon",
-                    }
-                },
-            };
+                    src: `${value.img}`,
+                    alt: `${key}_icon`,
+                    className: "icon",
+                }
+            },
+        };
+    }
+    _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"));
+    _u.on(".media", {
+        click() {
+            let a = this.childNodes[0];
         }
-        _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"));
-        _u.on(".media", {
-            click() {
-                let a = this.childNodes[0];
-            }
-        });
     });
 }).catch(error => console.warn(error));

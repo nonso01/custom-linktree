@@ -51,3 +51,27 @@ export function dom(input, root) {
 export function getComputed(el) {
     return w.getComputedStyle(el, null);
 }
+export const data = {
+    "network": {
+        "github": {
+            "url": "https://github.com/nonso01",
+            "img": "/assets/logos/github-mark.svg",
+            "id": "0"
+        },
+        "LinkedIn": {
+            "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
+            "img": "/assets/logos/linkedIn.png",
+            "id": "1"
+        },
+        "twitter": {
+            "url": "https://twitter.com/NonsoMartin06",
+            "img": "/assets/logos/twitter.png",
+            "id": "2"
+        },
+        "portfolio": {
+            "url": "https://nonso01-test.netlify.app",
+            "img": "/assets/logos/logo-martin.svg",
+            "id": "3"
+        }
+    }
+};

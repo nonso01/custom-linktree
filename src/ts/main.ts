@@ -75,19 +75,16 @@ _u.on(".dp", {
   }
 })
 
- fetch("data.json")
-.then(res => <Promise<{network: object}>>res.json())
-.then(json =>  {
+ 
   const SOCIAL_DOM_NODES: object = {}
   
-  for(const [key, value] of Object.entries(json?.network)) {
+  for(const [key, value] of Object.entries(_u.data.network)) {
     SOCIAL_DOM_NODES[key] = {
      nodeName: "div",
-    // textNode: key,
      attributes: {
        className: "media fx j-spe cn",
        id: key,
-       draggable: true
+       draggable: true,
      },
      icon: {
        nodeName: "img",
@@ -106,7 +103,7 @@ _u.on(".dp", {
     // }
     }
   }
-  
+ 
  _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"))
  
  
@@ -115,8 +112,6 @@ _u.on(".media", {
     let a = <HTMLImageElement>this.childNodes[0]
  }
  })
-
-})
 // _u.log(_u.dq("body"))
   
 
