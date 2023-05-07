@@ -48,3 +48,6 @@ export function dom(input, root) {
         root.append(p);
     }
 }
+export function getComputed(el) {
+    return w.getComputedStyle(el, null);
+}

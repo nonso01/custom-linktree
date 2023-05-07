@@ -38,7 +38,7 @@ const FIRST_DOM_NODES: object = {
           nodeName: "h1",
           textNode: "Martin のんそです",
           attributes: {
-            className: "title mix md"
+            className: "title mix lg"
           }
         },
         paragraph: {
@@ -83,11 +83,27 @@ _u.on(".dp", {
   for(const [key, value] of Object.entries(json?.network)) {
     SOCIAL_DOM_NODES[key] = {
      nodeName: "div",
-     textNode: key,
+    // textNode: key,
      attributes: {
        className: "media fx j-spe cn",
-       id: key
-     }
+       id: key,
+       draggable: true
+     },
+     icon: {
+       nodeName: "img",
+       attributes: {
+         src: `${value.img}`,
+         alt: `${key}_icon`,
+         className: "icon",
+       }
+     },
+    // link: {
+    //   nodeName: "h3",
+    //   textNode: key,
+    //   attributes: {
+    //     className: "title mix"
+    //   }
+    // }
     }
   }
   
@@ -96,8 +112,8 @@ _u.on(".dp", {
  
 _u.on(".media", {
   click() {
-    _u.log(this.id)
-   }
+    let a = <HTMLImageElement>this.childNodes[0]
+ }
  })
 
 })

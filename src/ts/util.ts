@@ -73,3 +73,7 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
     root!.append(p)
   }
 }
+
+export function getComputed(el: Element | HTMLElement): CSSStyleDeclaration {
+  return w.getComputedStyle(el, null)
+}

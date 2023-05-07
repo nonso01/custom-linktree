@@ -35,7 +35,7 @@ const MAIN = new Promise((resolve, reject) => {
                         nodeName: "h1",
                         textNode: "Martin のんそです",
                         attributes: {
-                            className: "title mix md"
+                            className: "title mix lg"
                         }
                     },
                     paragraph: {
@@ -77,17 +77,25 @@ const MAIN = new Promise((resolve, reject) => {
         for (const [key, value] of Object.entries(json?.network)) {
             SOCIAL_DOM_NODES[key] = {
                 nodeName: "div",
-                textNode: key,
                 attributes: {
                     className: "media fx j-spe cn",
-                    id: key
-                }
+                    id: key,
+                    draggable: true
+                },
+                icon: {
+                    nodeName: "img",
+                    attributes: {
+                        src: `${value.img}`,
+                        alt: `${key}_icon`,
+                        className: "icon",
+                    }
+                },
             };
         }
         _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"));
         _u.on(".media", {
             click() {
-                _u.log(this.id);
+                let a = this.childNodes[0];
             }
         });
     });
