@@ -40,7 +40,7 @@ const MAIN = new Promise((resolve, reject) => {
                     },
                     paragraph: {
                         nodeName: "p",
-                        textNode: "こんにちわ 👋, am a Web developer and a great fan of the Japanese cultures and traditions.",
+                        textNode: "こんにちわ 👋, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions.",
                         attributes: {
                             className: "text dark txt-cn"
                         }
@@ -92,7 +92,18 @@ const MAIN = new Promise((resolve, reject) => {
     _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"));
     _u.on(".media", {
         click() {
-            let a = this.childNodes[0];
+            const key = _u.data.network;
+            if (key[this.id]) {
+                location.replace(key[this.id].url);
+            }
+            else
+                console.warn("the id doesn't match the key");
+        },
+        touchmove(e) {
+            e.stopImmediatePropagation();
+            const h = parseInt(_u.getComputed(this).width);
+            const { clientX, clientY } = e.touches[0];
+            _u.log(h);
         }
     });
 }).catch(error => console.warn(error));

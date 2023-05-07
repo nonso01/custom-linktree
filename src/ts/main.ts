@@ -43,7 +43,7 @@ const FIRST_DOM_NODES: object = {
         },
         paragraph: {
           nodeName: "p",
-          textNode: "こんにちわ 👋, am a Web developer and a great fan of the Japanese cultures and traditions.",
+          textNode: "こんにちわ 👋, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions.",
           attributes: {
             className: "text dark txt-cn"
           }
@@ -94,23 +94,26 @@ _u.on(".dp", {
          className: "icon",
        }
      },
-    // link: {
-    //   nodeName: "h3",
-    //   textNode: key,
-    //   attributes: {
-    //     className: "title mix"
-    //   }
-    // }
     }
   }
  
  _u.dom(SOCIAL_DOM_NODES, _u.dq(".social"))
  
- 
 _u.on(".media", {
   click() {
-    let a = <HTMLImageElement>this.childNodes[0]
- }
+    const key = _u.data.network
+    if(key[this.id]) {
+      location.replace(key[this.id].url)
+    }
+    else console.warn("the id doesn't match the key")
+  },
+  touchmove(e: TouchEvent) {
+    e.stopImmediatePropagation()
+    const h = parseInt(_u.getComputed(<HTMLElement>this).width)
+    
+    const {clientX, clientY} = e.touches[0]
+    _u.log(h)
+  }
  })
 // _u.log(_u.dq("body"))
   
