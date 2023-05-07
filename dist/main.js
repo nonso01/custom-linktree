@@ -1,5 +1,6 @@
 import * as _u from "./util.js";
 const DP = new Image();
+let MIN_TILT_X = 0.1;
 const MAIN = new Promise((resolve, reject) => {
     const FIRST_DOM_NODES = {
         root_parent: {
@@ -77,7 +78,6 @@ const MAIN = new Promise((resolve, reject) => {
             attributes: {
                 className: "media fx j-spe cn",
                 id: key,
-                draggable: true,
             },
             icon: {
                 nodeName: "img",
@@ -102,11 +102,24 @@ const MAIN = new Promise((resolve, reject) => {
             else
                 console.warn("the id doesn't match the key");
         },
+        touchstart() {
+            this.classList.add("move");
+        },
         touchmove(e) {
             e.stopImmediatePropagation();
-            const h = parseInt(_u.getComputed(this).width);
-            const { clientX, clientY } = e.touches[0];
-            _u.log(h);
+            const width = parseInt(_u.getComputed(this).width);
+            const halfWidth = width * .5;
+            const { clientX } = e.touches[0];
+            let max = clientX >= width ? width : clientX;
+            max *= MIN_TILT_X;
+            clientX <= halfWidth ? (max = max) : (max -= max);
+            this.style.cssText = `--x: ${max}%`;
+            _u.log(max);
+        },
+        touchend() {
+            this.classList.remove("move");
+        },
+        pointerenter() {
         }
     });
 }).catch(error => console.warn(error));
