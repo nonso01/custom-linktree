@@ -93,8 +93,11 @@ const MAIN = new Promise((resolve, reject) => {
     _u.on(".media", {
         click() {
             const key = _u.data.network;
+            const link = _u.dce("a");
+            link.target = "_blank";
             if (key[this.id]) {
-                location.replace(key[this.id].url);
+                link.href = key[this.id].url;
+                link.click();
             }
             else
                 console.warn("the id doesn't match the key");
