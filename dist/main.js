@@ -6,7 +6,7 @@ const MAIN = new Promise((resolve, reject) => {
         about_me: {
             nodeName: "div",
             attributes: {
-                className: "fx col j-spe cn",
+                className: "fx col j-spe cn hide",
                 id: "about"
             },
             intro_parent: {
@@ -119,6 +119,13 @@ const MAIN = new Promise((resolve, reject) => {
         touchend() {
             this.classList.remove("move");
             this.style.removeProperty("--x");
+        }
+    });
+    _u.on(".animate__spin", {
+        animationend() {
+            const p = this.parentNode, about = _u.dq("#about");
+            p.classList.add("hide");
+            about?.classList.remove("hide");
         }
     });
 }).catch(error => console.warn(error));

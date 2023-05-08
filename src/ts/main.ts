@@ -10,7 +10,7 @@ const FIRST_DOM_NODES: object = {
   about_me: {
       nodeName: "div",
       attributes: {
-        className: "fx col j-spe cn",
+        className: "fx col j-spe cn hide",
         id: "about"
       },
     intro_parent: {
@@ -134,10 +134,18 @@ _u.on(".media", {
     this.classList.remove("move")
     this.style.removeProperty("--x")
 }
-})
+ })
  
- 
- 
+ _u.on(".animate__spin", {
+   animationend() {
+     const p: HTMLDivElement = this.parentNode,
+       about = _u.dq("#about")
+       
+       p.classList.add("hide")
+      about?.classList.remove("hide")
+     
+   }
+ })
 // _u.log(_u.dq("body"))
   
 }).catch(error => console.warn(error))
