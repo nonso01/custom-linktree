@@ -38,14 +38,14 @@ const FIRST_DOM_NODES: object = {
         },
         heading: {
           nodeName: "h1",
-          textNode: "Martin のんそです",
+          textNode: "Nonso Martin",
           attributes: {
             className: "title mix lg"
           }
         },
         paragraph: {
           nodeName: "p",
-          textNode: "こんにちわ 👋, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions.",
+          textNode: "こんにちわ ✨, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions. Get in touch",
           attributes: {
             className: "text dark txt-cn"
           }
@@ -119,7 +119,7 @@ _u.on(".media", {
     e.stopImmediatePropagation()
     
     const width = parseInt(_u.getComputed(<HTMLElement>this).width)
-    const halfWidth = width * .5
+    const halfWidth = width * .6
     const {clientX} = e.touches[0]
     
     let max = clientX >= width ? width : clientX

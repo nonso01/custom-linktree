@@ -34,14 +34,14 @@ const MAIN = new Promise((resolve, reject) => {
                     },
                     heading: {
                         nodeName: "h1",
-                        textNode: "Martin のんそです",
+                        textNode: "Nonso Martin",
                         attributes: {
                             className: "title mix lg"
                         }
                     },
                     paragraph: {
                         nodeName: "p",
-                        textNode: "こんにちわ 👋, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions.",
+                        textNode: "こんにちわ ✨, am a Scientist, Web developer and a great fan of the Japanese cultures and traditions. Get in touch",
                         attributes: {
                             className: "text dark txt-cn"
                         }
@@ -108,7 +108,7 @@ const MAIN = new Promise((resolve, reject) => {
         touchmove(e) {
             e.stopImmediatePropagation();
             const width = parseInt(_u.getComputed(this).width);
-            const halfWidth = width * .5;
+            const halfWidth = width * .6;
             const { clientX } = e.touches[0];
             let max = clientX >= width ? width : clientX;
             max *= MIN_TILT_X;
