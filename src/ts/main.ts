@@ -1,8 +1,6 @@
 import * as _u from "./util.js"
 
-const DP = new Image()
-let MIN_TILT_X = 0.1
-// let MAX_TILT_X = 20
+const MIN_TILT_X = 0.1
 
 const MAIN = new Promise((resolve, reject) => {
   
@@ -86,7 +84,6 @@ _u.on(".dp", {
      attributes: {
        className: "media fx j-spe cn",
        id: key,
-      // draggable: true,
      },
      icon: {
        nodeName: "img",
@@ -128,7 +125,6 @@ _u.on(".media", {
     clientX <= halfWidth ? (max = max) : (max -= max)
     
     this.style.cssText = `--x: ${max}%`
-    _u.log(max)
 },
   touchend() {
     this.classList.remove("move")
@@ -146,7 +142,7 @@ _u.on(".media", {
      
    }
  })
-// _u.log(_u.dq("body"))
+
   
 }).catch(error => console.warn(error))
 

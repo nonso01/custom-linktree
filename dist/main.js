@@ -1,6 +1,5 @@
 import * as _u from "./util.js";
-const DP = new Image();
-let MIN_TILT_X = 0.1;
+const MIN_TILT_X = 0.1;
 const MAIN = new Promise((resolve, reject) => {
     const FIRST_DOM_NODES = {
         about_me: {
@@ -114,7 +113,6 @@ const MAIN = new Promise((resolve, reject) => {
             max *= MIN_TILT_X;
             clientX <= halfWidth ? (max = max) : (max -= max);
             this.style.cssText = `--x: ${max}%`;
-            _u.log(max);
         },
         touchend() {
             this.classList.remove("move");
