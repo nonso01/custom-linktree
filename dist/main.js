@@ -1,5 +1,6 @@
 import * as _u from "./util.js";
 const MIN_TILT_X = 0.1;
+const NOW = new Date();
 const MAIN = new Promise((resolve, reject) => {
     const FIRST_DOM_NODES = {
         about_me: {

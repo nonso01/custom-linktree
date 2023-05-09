@@ -1,6 +1,7 @@
 import * as _u from "./util.js"
 
 const MIN_TILT_X = 0.1
+const NOW = new Date()
 
 const MAIN = new Promise((resolve, reject) => {
   
@@ -132,6 +133,8 @@ _u.on(".media", {
 }
  })
  
+ 
+ /*@ animations @*/
  _u.on(".animate__spin", {
    animationend() {
      const p: HTMLDivElement = this.parentNode,
@@ -143,6 +146,4 @@ _u.on(".media", {
    }
  })
 
-  
 }).catch(error => console.warn(error))
-
