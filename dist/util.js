@@ -32,12 +32,12 @@ export function dom(input, root) {
     for (const [key, value] of Object.entries(input)) {
         if (!r.test(key))
             continue;
-        if (value.nodeName)
-            p = dce(value.nodeName);
-        if (value.textNode)
-            p.textContent = value.textNode;
-        if (value.attributes) {
-            for (const [attrKey, attrName] of Object.entries(value.attributes)) {
+        if (value.node)
+            p = dce(value.node);
+        if (value.text)
+            p.textContent = value.text;
+        if (value.attr) {
+            for (const [attrKey, attrName] of Object.entries(value.attr)) {
                 p[attrKey] = attrName;
             }
         }

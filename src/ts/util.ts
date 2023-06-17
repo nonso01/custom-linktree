@@ -52,14 +52,14 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
   /**
    * const DOM = {
      div: {
-       nodeName: "div",
-       attributes: {
+       node: "div",
+       attr: {
          className: "",
          id: ""
        },
-       textNode: "",
+       text: "",
        child_div: {
-         nodeName: ""
+         node: ""
          etc....
        }
      }
@@ -70,12 +70,12 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
  for(const [key, value] of Object.entries(input)) {
    if(!r.test(key)) continue
     
-    if(value.nodeName) p = dce(value.nodeName)
+    if(value.node) p = dce(value.node)
     
-    if(value.textNode) p.textContent = value.textNode
+    if(value.text) p.textContent = value.text
     
-    if(value.attributes) {
-      for(const [attrKey, attrName] of Object.entries(value.attributes)) {
+    if(value.attr) {
+      for(const [attrKey, attrName] of Object.entries(value.attr)) {
         p[attrKey] = attrName
       }
     }
