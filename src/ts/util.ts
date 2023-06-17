@@ -1,9 +1,9 @@
 export const [log, w, d] = [console.log, window, document]
 
 /*@ types @*/
-export type _element = string | Element | Window | null
+export type ELEMENT = string | Element | Window | null
 
-export interface _events {
+export interface EVENTOBJ {
   [key: string]: any
 }
 
@@ -11,10 +11,9 @@ export interface _inputDom {
     [key: string]: any
 }
 
+// end of types and interface
+
 export const NULL = void 0
-
-
-export let incrementRandomInt = 0
 
 
 export function dq(x: string = "html"): HTMLElement | null {
@@ -33,7 +32,7 @@ export function len(o: object[] | string[]): number {
   return o.length
 }
 
-export function on(element: _element, ev: _events): boolean {
+export function on(element: ELEMENT, ev: EVENTOBJ): boolean {
   let node = typeof element === "string" ? dqA(element) : element
   
   if(node instanceof NodeList) {
@@ -50,6 +49,22 @@ export function on(element: _element, ev: _events): boolean {
 }
 
 export function dom(input: _inputDom, root: HTMLElement | null) {
+  /**
+   * const DOM = {
+     div: {
+       nodeName: "div",
+       attributes: {
+         className: "",
+         id: ""
+       },
+       textNode: "",
+       child_div: {
+         nodeName: ""
+         etc....
+       }
+     }
+   }
+*/
   let p, r = /\w{4,}\d?/
  
  for(const [key, value] of Object.entries(input)) {

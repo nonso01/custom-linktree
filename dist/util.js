@@ -1,6 +1,5 @@
 export const [log, w, d] = [console.log, window, document];
 export const NULL = void 0;
-export let incrementRandomInt = 0;
 export function dq(x = "html") {
     return d.querySelector(x);
 }
