@@ -41,6 +41,9 @@ export function dom(input, root) {
                 p[attrKey] = attrName;
             }
         }
+        if (value.innerDom) {
+            p.innerHTML = value.innerDom;
+        }
         if (typeof p === "undefined")
             continue;
         dom(value, p);

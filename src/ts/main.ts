@@ -55,6 +55,16 @@ const endLoad = on("progress.loaded", {
   }
 })
 
+const anOverlay = dom({
+  overlay: {
+    node: "div",
+    attr: {
+      className: "overlay hide"
+    }
+  }
+}, body)
+
+const overlayEl = dq(".overlay");
 
 const headerSection = dom({
   header: {
@@ -134,37 +144,48 @@ const viewMyImage = dom({
       attr: {
         className: "describe-me"
       },
-      text: `Hey!, what prevents you from creating stuffs even if they might not have a potential use case 🥴, below are links where you can connect with me. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years lol, i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
+      text: `Hey!, what prevents you from creating stuffs even if they might not have a potential use case 🤫, below are links where you can connect with me. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years lol, i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
     },
 
   }
 }, root)
 
-const imageContent = dq(".view-image")
+const myImageAndAdvice = dq(".view-image")
 
 const viewMyImageOnClick = on(".nonso-image img", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
+    overlayEl?.classList.toggle("hide")
   
-    imageContent!.classList.remove("hide-image")
+    myImageAndAdvice!.classList.remove("hide-image")
     
-    imageContent?.classList.toggle("hide")
-    log(imageContent!.classList)
-   
+    myImageAndAdvice?.classList.toggle("hide")
+    
   }
 })
 
 const cancelMyImageOnClick = on(".cancel-icon", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
-    imageContent?.classList.add("hide-image")
-    if(imageContent?.classList.contains("hide-image")) {
+    overlayEl?.classList.toggle("hide")
+    
+    myImageAndAdvice?.classList.add("hide-image")
+    if(myImageAndAdvice?.classList.contains("hide-image")) {
       on(".hide-image", {
         animationend() {
           this.classList.contains("hide-image") && this.classList.add("hide")
-          log("end")
         }
       })
     }
   }
 })
+
+const aBriefIntro = dom({
+  briefIntroCover: {
+    node: "div",
+    attr: {
+      className: "brief-intro"
+    },
+    innerDom: `<span> hello 🥴</spaa>`
+  }
+}, root)

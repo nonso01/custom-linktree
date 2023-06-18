@@ -3,11 +3,11 @@ export const [log, w, d] = [console.log, window, document]
 /*@ types @*/
 export type ELEMENT = string | Element | Window | null
 
-export interface EVENTOBJ {
+export interface EVENTOPTION {
   [key: string]: any
 }
 
-export interface _inputDom {
+export interface DOMOPTION {
     [key: string]: any
 }
 
@@ -32,7 +32,7 @@ export function len(o: object[] | string[]): number {
   return o.length
 }
 
-export function on(element: ELEMENT, ev: EVENTOBJ): boolean {
+export function on(element: ELEMENT, ev: EVENTOPTION): boolean {
   let node = typeof element === "string" ? dqA(element) : element
   
   if(node instanceof NodeList) {
@@ -48,7 +48,7 @@ export function on(element: ELEMENT, ev: EVENTOBJ): boolean {
   return element && event ? true : false
 }
 
-export function dom(input: _inputDom, root: HTMLElement | null) {
+export function dom(input: DOMOPTION, root: HTMLElement | null) {
   /**
    * const DOM = {
      div: {
@@ -78,6 +78,11 @@ export function dom(input: _inputDom, root: HTMLElement | null) {
       for(const [attrKey, attrName] of Object.entries(value.attr)) {
         p[attrKey] = attrName
       }
+    }
+    
+    if(value.innerDom) {
+      p.innerHTML = value.innerDom
+      // as we all know this will override textContent
     }
     
     if(typeof p === "undefined") continue 
