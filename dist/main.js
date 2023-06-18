@@ -147,6 +147,7 @@ const aBriefIntro = dom({
         attr: {
             className: "brief-intro"
         },
-        innerDom: `<span> hello 🥴</spaa>`
+        innerDom: `
+    <span> hello testing</span>`
     }
 }, root);
