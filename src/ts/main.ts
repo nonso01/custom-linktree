@@ -111,8 +111,8 @@ const headerSection = dom({
         menuIcon: {
           node: "img",
           attr: {
-            src: "/assets/align-right.svg",
-            alt: "menu"
+            src: "/assets/menu.svg",
+            alt: "menu icon lucide"
           }
         }
       }
