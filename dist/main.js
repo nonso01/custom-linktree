@@ -1,7 +1,8 @@
-import { dom, on, dq } from "./util.js";
+import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
 const body = dq("body");
 const root = dq("#root");
 let incrementRandomInt = 0, incrementProgress = 0;
+const maxRotation = 10;
 const progressAnimation = dom({
     loading: {
         node: "progress",
@@ -19,11 +20,11 @@ const onProgressAnimation = on("progress", {
         this.value = incrementProgress;
     },
     animationend(e) {
-        this.classList.add("loaded");
+        addClass(this, "loaded");
         const endLoad = on("progress.loaded", {
             animationend() {
-                this.classList.add("hide");
-                root.classList.remove("hide");
+                addClass(this, "hide");
+                rmClass(root, "hide");
             }
         });
     }
@@ -122,22 +123,80 @@ const myImageAndAdvice = dq(".view-image");
 const viewMyImageOnClick = on(".nonso-image img", {
     click(e) {
         e.stopImmediatePropagation();
-        overlayEl?.classList.toggle("hide");
-        myImageAndAdvice.classList.remove("hide-image");
-        myImageAndAdvice?.classList.toggle("hide");
+        toggleClass(overlayEl, "hide");
+        rmClass(myImageAndAdvice, "hide-image");
+        toggleClass(myImageAndAdvice, "hide");
     }
 });
 const cancelMyImageOnClick = on(".cancel-icon", {
     click(e) {
         e.stopImmediatePropagation();
-        overlayEl?.classList.toggle("hide");
-        myImageAndAdvice?.classList.add("hide-image");
-        if (myImageAndAdvice?.classList.contains("hide-image")) {
+        toggleClass(overlayEl, "hide");
+        addClass(myImageAndAdvice, "hide-image");
+        if (hasClass(myImageAndAdvice, "hide-image")) {
             on(".hide-image", {
                 animationend() {
-                    this.classList.contains("hide-image") && this.classList.add("hide");
+                    hasClass(this, "hide-image") && addClass(this, "hide");
                 }
             });
+        }
+    }
+});
+const menuList = dom({
+    menuCover: {
+        node: "div",
+        attr: {
+            className: "menu-list hide"
+        },
+        innerDom: `
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    `,
+    }
+}, dq(".header"));
+const menuListEl = dq(".menu-list");
+const menuListVariables = [
+    "--menu-list-y",
+    "--menu-list-x",
+    "--menu-list-rotate"
+];
+const mapMenuVariables = new Map();
+const showMenuListOnClick = on(".menu-icon", {
+    click(e) {
+        e.stopImmediatePropagation();
+        toggleClass(menuListEl, "hide");
+        toggleClass(overlayEl, "hide");
+        if (menuListEl.classList.contains("hide")) {
+            for (const v of menuListVariables)
+                menuListEl.style.removeProperty(v);
+        }
+        const { clientX, clientY } = e;
+        const centerX = parseFloat(getComputed(menuListEl).height) / 4;
+        mapMenuVariables
+            .set("--menu-list-y", `${clientY}px`)
+            .set("--menu-list-x", `${clientX}px`);
+        for (const [k, v] of mapMenuVariables) {
+            menuListEl.style.setProperty(k, v);
+        }
+    }
+});
+const rotateMenuList = on(".menu-list", {
+    pointerover(e) {
+    },
+    touchmove(e) {
+        const { clientX, clientY } = e.touches[0];
+        const rotation = Math.round(clientX * .5);
+        log({ rotation });
+        mapMenuVariables.set("--menu-list-rotate", `${-rotation}deg`);
+        for (const [k, v] of mapMenuVariables) {
+            menuListEl.style.setProperty(k, v);
         }
     }
 });
@@ -148,6 +207,14 @@ const aBriefIntro = dom({
             className: "brief-intro"
         },
         innerDom: `
-    <span> hello testing</span>`
+    <span>hello testing</span>`
     }
 }, root);
+const fixIssuesThatAreLeft = on(w, {
+    orientationchange(e) {
+        addClass(menuListEl, "hide");
+    },
+    click() {
+        addClass(menuListEl, "hide");
+    }
+});

@@ -9,7 +9,10 @@ import {
   dce,
   len,
   getComputed,
-  data
+  addClass,
+  toggleClass,
+  hasClass,
+  rmClass,
 } from "./util.js"
 
 // Why am i not just making use of plain html ?
@@ -21,7 +24,7 @@ const root = dq("#root")
 let incrementRandomInt = 0,
     incrementProgress = 0
 
-
+const maxRotation = 10
   
 const progressAnimation = dom({
   loading: {
@@ -43,12 +46,13 @@ const onProgressAnimation = on("progress", {
     this.value = incrementProgress
   },
   animationend(e: AnimationEvent) {
-    this.classList.add("loaded")
+    addClass(<HTMLElement>this, "loaded")
     
 const endLoad = on("progress.loaded", {
       animationend() {
-        this.classList.add("hide")
-        root!.classList.remove("hide")
+        addClass(<HTMLElement>this, "hide")
+        rmClass(root, "hide")
+        
         // what about hiding root and display it after the loading is complete ?
       }
     })
@@ -155,11 +159,11 @@ const myImageAndAdvice = dq(".view-image")
 const viewMyImageOnClick = on(".nonso-image img", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
-    overlayEl?.classList.toggle("hide")
+    toggleClass(overlayEl, "hide")
   
-    myImageAndAdvice!.classList.remove("hide-image")
+    rmClass(myImageAndAdvice, "hide-image")
     
-    myImageAndAdvice?.classList.toggle("hide")
+    toggleClass(myImageAndAdvice, "hide")
     
   }
 })
@@ -167,15 +171,88 @@ const viewMyImageOnClick = on(".nonso-image img", {
 const cancelMyImageOnClick = on(".cancel-icon", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
-    overlayEl?.classList.toggle("hide")
+    toggleClass(overlayEl, "hide")
     
-    myImageAndAdvice?.classList.add("hide-image")
-    if(myImageAndAdvice?.classList.contains("hide-image")) {
+    addClass(myImageAndAdvice, "hide-image")
+    if(hasClass(myImageAndAdvice, "hide-image")) {
       on(".hide-image", {
         animationend() {
-          this.classList.contains("hide-image") && this.classList.add("hide")
+          
+          hasClass(<HTMLElement>this,"hide-image") && addClass(<HTMLElement>this, "hide")
         }
       })
+    }
+  }
+})
+
+const menuList = dom({
+  menuCover: {
+    node: "div",
+    attr: {
+      className: "menu-list hide"
+    },
+    innerDom: `
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    `,
+  }
+}, dq(".header"))
+
+const menuListEl = dq(".menu-list")
+
+const menuListVariables = [
+  "--menu-list-y",
+  "--menu-list-x",
+  "--menu-list-rotate"
+  ]
+
+const mapMenuVariables = new Map()
+
+const showMenuListOnClick = on(".menu-icon", {
+  click(e: PointerEvent) {
+    e.stopImmediatePropagation()
+    toggleClass(menuListEl, "hide")
+    toggleClass(overlayEl, "hide")
+    
+   if( menuListEl!.classList.contains("hide")) {
+     for(const v of menuListVariables) menuListEl!.style.removeProperty(v)
+   }
+    
+    const { clientX, clientY } = e
+    const centerX = parseFloat(getComputed(menuListEl).height) / 4
+    
+  mapMenuVariables
+    .set("--menu-list-y", `${clientY}px`)
+    .set("--menu-list-x", `${clientX}px`)
+    
+    for(const [k, v] of mapMenuVariables) {
+      menuListEl!.style.setProperty(k, v)
+    }
+  }
+})
+
+const rotateMenuList = on(".menu-list", {
+  pointerover(e: PointerEvent) {
+    
+  },
+  touchmove(e: TouchEvent) {
+    const { clientX, clientY } = e.touches[0]
+    
+    const rotation = Math.round(clientX * .5)
+    
+    log({rotation})
+    
+    mapMenuVariables.set("--menu-list-rotate", `${-rotation}deg`)
+    
+    for (const [k, v] of mapMenuVariables) {
+      menuListEl!.style.setProperty(k, v)
     }
   }
 })
@@ -187,6 +264,19 @@ const aBriefIntro = dom({
       className: "brief-intro"
     },
     innerDom: `
-    <span> hello testing</span>`
+    <span>hello testing</span>`
   }
 }, root)
+
+
+// for minor consistency
+
+const fixIssuesThatAreLeft = on(w, {
+  orientationchange(e: DeviceOrientationEvent) {
+    
+  addClass(menuListEl, "hide")
+  },
+  click() {
+    addClass(menuListEl, "hide")
+  }
+})
