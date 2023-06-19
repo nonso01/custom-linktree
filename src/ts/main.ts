@@ -279,9 +279,9 @@ const fixIssuesThatAreLeft = on(w, {
   hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
   },
   click() {
-    addClass(menuListEl, "hide")
+    // addClass(menuListEl, "hide")
     
-  hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
+  // hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
 
   }
 })
