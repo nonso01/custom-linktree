@@ -213,7 +213,7 @@ const menuListVariables = [
   "--menu-list-rotate"
   ]
 
-const mapMenuVariables = new Map()
+const storeMenuListVariables = new Map()
 
 const showMenuListOnClick = on(".menu-icon", {
   click(e: PointerEvent) {
@@ -228,11 +228,11 @@ const showMenuListOnClick = on(".menu-icon", {
     const { clientX, clientY } = e
     const centerX = parseFloat(getComputed(menuListEl).height) / 4
     
-  mapMenuVariables
+  storeMenuListVariables
     .set("--menu-list-y", `${clientY}px`)
     .set("--menu-list-x", `${clientX}px`)
     
-    for(const [k, v] of mapMenuVariables) {
+    for(const [k, v] of storeMenuListVariables) {
       menuListEl!.style.setProperty(k, v)
     }
   }
@@ -245,16 +245,22 @@ const rotateMenuList = on(".menu-list", {
   touchmove(e: TouchEvent) {
     const { clientX, clientY } = e.touches[0]
     
-    const rotation = Math.round(clientX * .5)
+    const rotation = Math.round(clientX * .6)
     
     log({rotation})
     
-    mapMenuVariables.set("--menu-list-rotate", `${-rotation}deg`)
+    storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`)
     
-    for (const [k, v] of mapMenuVariables) {
+    for (const [k, v] of storeMenuListVariables) {
       menuListEl!.style.setProperty(k, v)
     }
   }
+})
+
+const menuListItems = dqA(".menu-list div")
+
+menuListItems!.forEach((el: any) => {
+  
 })
 
 const aBriefIntro = dom({

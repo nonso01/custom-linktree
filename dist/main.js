@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
+import { log, w, dom, on, dq, dqA, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
 const body = dq("body");
 const root = dq("#root");
 let incrementRandomInt = 0, incrementProgress = 0;
@@ -167,7 +167,7 @@ const menuListVariables = [
     "--menu-list-x",
     "--menu-list-rotate"
 ];
-const mapMenuVariables = new Map();
+const storeMenuListVariables = new Map();
 const showMenuListOnClick = on(".menu-icon", {
     click(e) {
         e.stopImmediatePropagation();
@@ -179,10 +179,10 @@ const showMenuListOnClick = on(".menu-icon", {
         }
         const { clientX, clientY } = e;
         const centerX = parseFloat(getComputed(menuListEl).height) / 4;
-        mapMenuVariables
+        storeMenuListVariables
             .set("--menu-list-y", `${clientY}px`)
             .set("--menu-list-x", `${clientX}px`);
-        for (const [k, v] of mapMenuVariables) {
+        for (const [k, v] of storeMenuListVariables) {
             menuListEl.style.setProperty(k, v);
         }
     }
@@ -192,13 +192,16 @@ const rotateMenuList = on(".menu-list", {
     },
     touchmove(e) {
         const { clientX, clientY } = e.touches[0];
-        const rotation = Math.round(clientX * .5);
+        const rotation = Math.round(clientX * .6);
         log({ rotation });
-        mapMenuVariables.set("--menu-list-rotate", `${-rotation}deg`);
-        for (const [k, v] of mapMenuVariables) {
+        storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`);
+        for (const [k, v] of storeMenuListVariables) {
             menuListEl.style.setProperty(k, v);
         }
     }
+});
+const menuListItems = dqA(".menu-list div");
+menuListItems.forEach((el) => {
 });
 const aBriefIntro = dom({
     briefIntroCover: {
