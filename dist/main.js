@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, dqA, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
+import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
 const body = dq("body");
 const root = dq("#root");
 let incrementRandomInt = 0, incrementProgress = 0;
@@ -151,13 +151,9 @@ const menuList = dom({
         innerDom: `
     <div data-menu=cancel ></div>
     <div data-menu=palette></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
+    <div data-menu=setting></div>
+    <div data-menu=foo></div>
+    <div data-menu=baa></div>
     `,
     }
 }, dq(".header"));
@@ -173,35 +169,37 @@ const showMenuListOnClick = on(".menu-icon", {
         e.stopImmediatePropagation();
         toggleClass(menuListEl, "hide");
         toggleClass(overlayEl, "hide");
-        if (menuListEl.classList.contains("hide")) {
-            for (const v of menuListVariables)
-                menuListEl.style.removeProperty(v);
-        }
         const { clientX, clientY } = e;
         const centerX = parseFloat(getComputed(menuListEl).height) / 4;
         storeMenuListVariables
             .set("--menu-list-y", `${clientY}px`)
             .set("--menu-list-x", `${clientX}px`);
-        for (const [k, v] of storeMenuListVariables) {
-            menuListEl.style.setProperty(k, v);
-        }
+        storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
     }
 });
 const rotateMenuList = on(".menu-list", {
-    pointerover(e) {
-    },
     touchmove(e) {
+        e.stopImmediatePropagation();
         const { clientX, clientY } = e.touches[0];
-        const rotation = Math.round(clientX * .6);
-        log({ rotation });
+        const rotation = Math.round(clientX * .7);
         storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`);
-        for (const [k, v] of storeMenuListVariables) {
-            menuListEl.style.setProperty(k, v);
-        }
+        storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
     }
 });
-const menuListItems = dqA(".menu-list div");
-menuListItems.forEach((el) => {
+const performSomeOperationsByMenuItems = on(".menu-list div", {
+    click(e) {
+        switch (this.dataset.menu) {
+            case "cancel":
+                toggleClass(menuListEl, "hide");
+                toggleClass(overlayEl, "hide");
+                for (const v of menuListVariables)
+                    menuListEl.style.removeProperty(v);
+                break;
+            default:
+                log(this.dataset);
+                break;
+        }
+    }
 });
 const aBriefIntro = dom({
     briefIntroCover: {
