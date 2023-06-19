@@ -149,8 +149,8 @@ const menuList = dom({
             className: "menu-list hide"
         },
         innerDom: `
-    <div></div>
-    <div></div>
+    <div data-menu=cancel ></div>
+    <div data-menu=palette></div>
     <div></div>
     <div></div>
     <div></div>
@@ -213,7 +213,7 @@ const aBriefIntro = dom({
 const fixIssuesThatAreLeft = on(w, {
     orientationchange(e) {
         addClass(menuListEl, "hide");
-        hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0;
+        hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAndAdvice, "hide") ? addClass(overlayEl, "hide") : void 0;
     },
     click() {
     }
