@@ -53,6 +53,18 @@ export function dom(input, root) {
 export function getComputed(el) {
     return w.getComputedStyle(el, null);
 }
+export function hasClass(el, className) {
+    return el.classList.contains(className);
+}
+export function toggleClass(el, className) {
+    return el.classList.toggle(className);
+}
+export function addClass(el, className) {
+    return el.classList.add(className);
+}
+export function rmClass(el, className) {
+    return el.classList.remove(className);
+}
 export const data = {
     "network": {
         "github": {

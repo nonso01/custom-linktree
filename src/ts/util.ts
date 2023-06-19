@@ -94,10 +94,25 @@ export function dom(input: DOMOPTION, root: HTMLElement | null) {
   }
 }
 
-export function getComputed(el: Element | HTMLElement): CSSStyleDeclaration {
+export function getComputed(el: HTMLElement | any): CSSStyleDeclaration {
   return w.getComputedStyle(el, null)
 }
 
+export function hasClass(el: HTMLElement | null, className: string) {
+  return el!.classList.contains(className)
+}
+
+export function toggleClass(el: HTMLElement | null, className: string) {
+  return el!.classList.toggle(className)
+}
+
+export function addClass(el: HTMLElement | null, className: string) {
+  return el!.classList.add(className)
+}
+
+export function rmClass(el: HTMLElement | null, className: string) {
+  return el!.classList.remove(className)
+}
 
 export const data: {network: object} = { 
   "network": {
