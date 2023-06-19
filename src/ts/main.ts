@@ -275,8 +275,13 @@ const fixIssuesThatAreLeft = on(w, {
   orientationchange(e: DeviceOrientationEvent) {
     
   addClass(menuListEl, "hide")
+  
+  hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
   },
   click() {
     addClass(menuListEl, "hide")
+    
+  hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
+
   }
 })
