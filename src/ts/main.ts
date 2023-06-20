@@ -119,7 +119,7 @@ const headerSection = dom({
     </div>
     
     <div class="menu-icon">
-    <img src="/assets/menu.svg" alt="menu icon lucide">
+    <img src="/assets/icons/menu.svg" alt="menu icon lucide">
     </div>
     </div>`
   },
@@ -139,7 +139,7 @@ const viewMyImage = dom({
       cancelIcon: {
         node: "img",
         attr: {
-          src: "/assets/x.svg",
+          src: "/assets/icons/x.svg",
           alt: "cancel icon"
         }
       }
@@ -149,7 +149,7 @@ const viewMyImage = dom({
       attr: {
         className: "describe-me"
       },
-      text: `Hey!, what prevents you from creating stuffs even if they might not have any potential use case 🤫. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years and some special encouragement from \"Shimul\", i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
+      text: `Hey!, what prevents you from creating stuffs even if they might not have any potential use case 🤫. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years and with \"Sir Shimul\" who was always present to wake me up anytime i felt like pausing, i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
     },
 
   }
@@ -290,9 +290,9 @@ const appVersion = dom({
   briefIntroCover: {
     node: "div",
     attr: {
-      className: "app-version"
+      className: "app-version fx center"
     },
-    text: `Version  1.5.0`
+    innerDom: `<span class="bold">Version  1.5.0<span>`
   }
 }, root)
 
@@ -301,7 +301,21 @@ const aShortSummary = dom({
     node: "div",
     attr: {
       className: "short-summary"
-    }
+    },
+    innerDom: `
+    <div class="summary-image">
+    <picture>
+        <source srcset="/assets/gifs/html_code.webp" type="image/webp">
+        <img src="" alt="html_code_gif">
+    </picture>
+    </div>
+    
+    <div class="summary-text"> 
+    <p>
+    Hello :D , am Nonso Martin or you could say のんそ さん yeah i do love japanese and as well the Japanese cultures and traditions,  but that's for another day. Hope you know what the image represents ? , lol if you don't then that's how some of us get initiated and later get into trouble, what trouble ? am taking about the one involving hacking NASA using CSS, don't try it at home FBI might visit you. 
+    </p>
+    </div>
+    `
   }
 }, root)
 
