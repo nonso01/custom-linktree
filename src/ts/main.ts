@@ -138,7 +138,7 @@ const viewMyImage = dom({
       cancelIcon: {
         node: "img",
         attr: {
-          src: "/assets/resize.svg",
+          src: "/assets/x.svg",
           alt: "cancel icon"
         }
       }
@@ -154,16 +154,16 @@ const viewMyImage = dom({
   }
 }, root)
 
-const myImageAndAdvice = dq(".view-image")
+const myImageAdviceEl = dq(".view-image")
 
 const viewMyImageOnClick = on(".nonso-image img", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
     toggleClass(overlayEl, "hide")
   
-    rmClass(myImageAndAdvice, "hide-image")
+    rmClass(myImageAdviceEl, "hide-image")
     
-    toggleClass(myImageAndAdvice, "hide")
+    toggleClass(myImageAdviceEl, "hide")
     
   }
 })
@@ -173,8 +173,8 @@ const cancelMyImageOnClick = on(".cancel-icon", {
     e.stopImmediatePropagation()
     toggleClass(overlayEl, "hide")
     
-    addClass(myImageAndAdvice, "hide-image")
-    if(hasClass(myImageAndAdvice, "hide-image")) {
+    addClass(myImageAdviceEl, "hide-image")
+    if(hasClass(myImageAdviceEl, "hide-image")) {
       on(".hide-image", {
         animationend() {
           
@@ -289,7 +289,7 @@ const fixIssuesThatAreLeft = on(w, {
     
   addClass(menuListEl, "hide")
   
-  hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAndAdvice, "hide") ? addClass(overlayEl, "hide") : void 0
+  hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0
   },
   click() {
     // addClass(menuListEl, "hide")
