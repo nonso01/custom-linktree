@@ -18,6 +18,13 @@ import {
 // Why am i not just making use of plain html ?
 // well probably because i find it boring and less fun, and it doesn't make me work. :)
 
+declare global {
+  interface Navigator {
+    getBattery: () => Promise<any>;
+    ink: any
+  }
+}
+
 const html = dq("html")
 const body = dq("body")
 const root = dq("#root")
@@ -29,8 +36,25 @@ function toggleOverflow(c: boolean) {
 let incrementRandomInt = 0,
     incrementProgress = 0
 
-const maxRotation = 10
-  
+const minRotation = 0.8
+
+const themes = Object.freeze({
+  dark: {
+    "--m-main-bg-color": "#292930",
+    "--m-secondary-bg": "#2E2E2E",
+    "--m-default-color": "silver",
+  },
+  white: {
+    "--m-main-bg-color": "#fff",
+    "--m-secondary-bg": "#74b6f2",
+    "--m-default-color": "#292930",
+  }
+})
+
+
+const nav = navigator
+
+
 const progressAnimation = dom({
   loading: {
     node: "progress", // use this el
@@ -256,7 +280,7 @@ const rotateMenuList = on(".menu-list", {
     e.stopImmediatePropagation()
     const { clientX, clientY } = e.touches[0]
     
-    const rotation = Math.round(clientX * .8)
+    const rotation = Math.round(clientX * minRotation)
     
     storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`)
     
@@ -274,7 +298,13 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
 
         for(const v of menuListVariables) menuListEl!.style.removeProperty(v)
-        
+        break
+      case "moon": 
+       for(const [k, v] of Object.entries(themes.dark)) html!.style.setProperty(k, v)
+        break
+      case "sun": 
+       for(const [k, v] of Object.entries(themes.white)) html!.style.setProperty(k, v)
+
         break
         default:
         log(this.dataset)
