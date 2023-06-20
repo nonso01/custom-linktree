@@ -14,7 +14,7 @@ const themes = Object.freeze({
         "--m-default-color": "silver",
     },
     white: {
-        "--m-main-bg-color": "#fff",
+        "--m-main-bg-color": "#fdfdfd",
         "--m-secondary-bg": "#74b6f2",
         "--m-default-color": "#292930",
     }
