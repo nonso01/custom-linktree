@@ -11,11 +11,13 @@ const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",
         "--m-secondary-bg": "#2E2E2E",
+        "--m-secondary-bg-dim": "rgb(46,46,46,.6)",
         "--m-default-color": "silver",
     },
     white: {
         "--m-main-bg-color": "#fdfdfd",
         "--m-secondary-bg": "#74b6f2",
+        "--m-secondary-bg-dim": "rgb(116,182,242,.6)",
         "--m-default-color": "#292930",
     }
 });
@@ -132,7 +134,7 @@ const viewMyImage = dom({
             attr: {
                 className: "describe-me"
             },
-            text: `Hey!, what prevents you from creating stuffs even if they might not have a potential use case 🤫, below are links where you can connect with me. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years lol, i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
+            text: `Hey!, what prevents you from creating stuffs even if they might not have any potential use case 🤫. When i started this awesome journey i had no clear GOAL in mind. but after giving it 2 years and some special encouragement from \"Shimul\", i finally saw the endless list of what one could achieve. \"GIVE IT TIME.\"`
         },
     }
 }, root);
