@@ -1,6 +1,10 @@
 import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
+const html = dq("html");
 const body = dq("body");
 const root = dq("#root");
+function toggleOverflow(c) {
+    c === true ? html.style.overflow = "hidden" : html.style.overflow = "scroll";
+}
 let incrementRandomInt = 0, incrementProgress = 0;
 const maxRotation = 10;
 const progressAnimation = dom({
@@ -124,6 +128,7 @@ const viewMyImageOnClick = on(".nonso-image img", {
     click(e) {
         e.stopImmediatePropagation();
         toggleClass(overlayEl, "hide");
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         rmClass(myImageAdviceEl, "hide-image");
         toggleClass(myImageAdviceEl, "hide");
     }
@@ -133,6 +138,7 @@ const cancelMyImageOnClick = on(".cancel-icon", {
         e.stopImmediatePropagation();
         toggleClass(overlayEl, "hide");
         addClass(myImageAdviceEl, "hide-image");
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         if (hasClass(myImageAdviceEl, "hide-image")) {
             on(".hide-image", {
                 animationend() {
@@ -151,9 +157,9 @@ const menuList = dom({
         innerDom: `
     <div data-menu=cancel ></div>
     <div data-menu=palette></div>
-    <div data-menu=setting></div>
-    <div data-menu=foo></div>
-    <div data-menu=baa></div>
+    <div data-menu=moon></div>
+    <div data-menu=sun></div>
+    <div data-menu=battery></div>
     `,
     }
 }, dq(".header"));
@@ -169,6 +175,7 @@ const showMenuListOnClick = on(".menu-icon", {
         e.stopImmediatePropagation();
         toggleClass(menuListEl, "hide");
         toggleClass(overlayEl, "hide");
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         const { clientX, clientY } = e;
         const centerX = parseFloat(getComputed(menuListEl).height) / 4;
         storeMenuListVariables
@@ -186,12 +193,13 @@ const rotateMenuList = on(".menu-list", {
         storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
     }
 });
-const performSomeOperationsByMenuItems = on(".menu-list div", {
+const someOperationsDoneByMenuItems = on(".menu-list div", {
     click(e) {
         switch (this.dataset.menu) {
             case "cancel":
                 toggleClass(menuListEl, "hide");
                 toggleClass(overlayEl, "hide");
+                hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
                 for (const v of menuListVariables)
                     menuListEl.style.removeProperty(v);
                 break;

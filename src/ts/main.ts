@@ -18,8 +18,13 @@ import {
 // Why am i not just making use of plain html ?
 // well probably because i find it boring and less fun, and it doesn't make me work. :)
 
+const html = dq("html")
 const body = dq("body")
 const root = dq("#root")
+
+function toggleOverflow(c: boolean) {
+  c === true ? html!.style.overflow = "hidden" : html!.style.overflow = "scroll"
+}
 
 let incrementRandomInt = 0,
     incrementProgress = 0
@@ -160,7 +165,9 @@ const viewMyImageOnClick = on(".nonso-image img", {
   click(e: PointerEvent) {
     e.stopImmediatePropagation()
     toggleClass(overlayEl, "hide")
-  
+    
+    hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
+    
     rmClass(myImageAdviceEl, "hide-image")
     
     toggleClass(myImageAdviceEl, "hide")
@@ -174,6 +181,9 @@ const cancelMyImageOnClick = on(".cancel-icon", {
     toggleClass(overlayEl, "hide")
     
     addClass(myImageAdviceEl, "hide-image")
+    
+    hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
+
     if(hasClass(myImageAdviceEl, "hide-image")) {
       on(".hide-image", {
         animationend() {
@@ -194,9 +204,9 @@ const menuList = dom({
     innerDom: `
     <div data-menu=cancel ></div>
     <div data-menu=palette></div>
-    <div data-menu=setting></div>
-    <div data-menu=foo></div>
-    <div data-menu=baa></div>
+    <div data-menu=moon></div>
+    <div data-menu=sun></div>
+    <div data-menu=battery></div>
     `,
   }
 }, dq(".header"))
@@ -217,7 +227,8 @@ const showMenuListOnClick = on(".menu-icon", {
     toggleClass(menuListEl, "hide")
     toggleClass(overlayEl, "hide")
     
-    
+    hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
+
     const { clientX, clientY } = e
     const centerX = parseFloat(getComputed(menuListEl).height) / 4
     
@@ -253,13 +264,15 @@ const rotateMenuList = on(".menu-list", {
   }
 })
 
-const performSomeOperationsByMenuItems = on(".menu-list div", {
+const someOperationsDoneByMenuItems = on(".menu-list div", {
   click(e: PointerEvent) {
     switch(this.dataset.menu) {
       case "cancel": 
         toggleClass(menuListEl, "hide")
         toggleClass(overlayEl, "hide")
         
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
+
         for(const v of menuListVariables) menuListEl!.style.removeProperty(v)
         
         break
