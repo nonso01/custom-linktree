@@ -46,7 +46,7 @@ const themes = Object.freeze({
     "--m-default-color": "silver",
   },
   white: {
-    "--m-main-bg-color": "#fdfdfd",
+    "--m-main-bg-color": "#e9e9e9",
     "--m-secondary-bg": "#74b6f2",
     "--m-secondary-bg-dim": "#fdfdfd99",
     "--m-default-color": "#292930",
@@ -107,52 +107,22 @@ const headerSection = dom({
     attr: {
       className: "header fx center"
     },
-    navigate: {
-      node: "div",
-      attr: {
-        className: "nav fx center even"
-      },
-      imageCover: {
-        node: "div",
-        attr: {
-          className: "nonso-image"
-        },
-        nonsoImage: {
-          node: "img",
-          attr: {
-            src: "/assets/nonso01.jpg",
-            alt: "Nonso Martin"
-          }
-        }
-      },
-      myBrand: {
-        node: "div",
-        attr: {
-          className: "nonso-brand"
-        },
-        nonsoBrand: {
-          node: "img",
-          attr: {
-            src: "/assets/logos/logo-martin.svg",
-            alt: "nonso logo"
-          }
-        }
-      },
-      menuIconCover: {
-        node: "div",
-        attr: {
-          className: "menu-icon"
-        },
-        menuIcon: {
-          node: "img",
-          attr: {
-            src: "/assets/menu.svg",
-            alt: "menu icon lucide"
-          }
-        }
-      }
-    },
-  }
+    innerDom: `
+    <div class="nav fx center even">
+    
+    <div class="nonso-image">
+    <img src="/assets/nonso01.jpg" alt="Nonso Martin">
+    </div>
+    
+    <div class="nonso-brand">
+    <img src="/assets/logos/logo-martin.svg" alt="nonso logo">
+    </div>
+    
+    <div class="menu-icon">
+    <img src="/assets/menu.svg" alt="menu icon lucide">
+    </div>
+    </div>`
+  },
 }, root)
 
 const viewMyImage = dom({
@@ -228,7 +198,7 @@ const menuList = dom({
       className: "menu-list hide"
     },
     innerDom: `
-    <div data-menu=cancel ></div>
+    <div data-menu=cancel></div>
     <div data-menu=palette></div>
     <div data-menu=moon></div>
     <div data-menu=sun></div>
@@ -299,6 +269,7 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
         
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
 
+      storeMenuListVariables.clear()
         for(const v of menuListVariables) menuListEl!.style.removeProperty(v)
         break
       case "moon": 
@@ -321,7 +292,7 @@ const appVersion = dom({
     attr: {
       className: "app-version"
     },
-    innerDom: `<span>Version  1.5.0</span>`
+    text: `Version  1.5.0`
   }
 }, root)
 
