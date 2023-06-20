@@ -315,17 +315,24 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
   }
 })
 
-const aBriefIntro = dom({
+const appVersion = dom({
   briefIntroCover: {
     node: "div",
     attr: {
-      className: "brief-intro"
+      className: "app-version"
     },
-    innerDom: `
-    <span>A newer version 1.5.0</span>`
+    innerDom: `<span>Version  1.5.0</span>`
   }
 }, root)
 
+const aShortSummary = dom({
+  summary: {
+    node: "div",
+    attr: {
+      className: "short-summary"
+    }
+  }
+}, root)
 
 // for minor consistency
 
