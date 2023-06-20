@@ -216,13 +216,14 @@ const aBriefIntro = dom({
             className: "brief-intro"
         },
         innerDom: `
-    <span>hello testing</span>`
+    <span>A newer version 1.5.0</span>`
     }
 }, root);
 const fixIssuesThatAreLeft = on(w, {
     orientationchange(e) {
         addClass(menuListEl, "hide");
         hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0;
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
     },
     click() {
     }
