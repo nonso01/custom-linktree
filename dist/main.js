@@ -181,7 +181,7 @@ const rotateMenuList = on(".menu-list", {
     touchmove(e) {
         e.stopImmediatePropagation();
         const { clientX, clientY } = e.touches[0];
-        const rotation = Math.round(clientX * .7);
+        const rotation = Math.round(clientX * .8);
         storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`);
         storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
     }

@@ -245,7 +245,7 @@ const rotateMenuList = on(".menu-list", {
     e.stopImmediatePropagation()
     const { clientX, clientY } = e.touches[0]
     
-    const rotation = Math.round(clientX * .7)
+    const rotation = Math.round(clientX * .8)
     
     storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`)
     
