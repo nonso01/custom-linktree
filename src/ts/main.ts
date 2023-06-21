@@ -97,7 +97,7 @@ const anOverlay = dom({
   overlay: {
     node: "div",
     attr: {
-      className: "overlay hide"
+      className: "overlay hide",
     }
   }
 }, body)
@@ -229,7 +229,6 @@ const showMenuListOnClick = on(".menu-icon", {
     hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
 
     const { clientX, clientY } = e
-    const centerX = parseFloat(getComputed(menuListEl).height) / 4
     
   storeMenuListVariables
     .set("--menu-list-y", `${clientY}px`)
@@ -289,6 +288,7 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
   }
 })
 
+
 const appVersion = dom({
   briefIntroCover: {
     node: "div",
@@ -325,8 +325,14 @@ const aShortSummary = dom({
 // for minor consistency
 
 const fixIssuesThatAreLeft = on(w, {
-  orientationchange(e: DeviceOrientationEvent) {
-    
+  load() {
+   overlayEl!.style.setProperty("--overlay-h", `${getComputed(html).height}`)
+  },
+  resize(e: Event) {
+    // orientation failed to accomplish some effects
+    e.preventDefault()
+   overlayEl!.style.setProperty("--overlay-h", `${getComputed(html).height}`)
+
   addClass(menuListEl, "hide")
   
   hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0
@@ -334,10 +340,6 @@ const fixIssuesThatAreLeft = on(w, {
   hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
 
   },
-  click() {
-    // addClass(menuListEl, "hide")
-    
-  // hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") ? addClass(overlayEl, "hide") : void 0
-
-  }
+  scroll() {
+  },
 })

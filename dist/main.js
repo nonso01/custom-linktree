@@ -54,7 +54,7 @@ const anOverlay = dom({
     overlay: {
         node: "div",
         attr: {
-            className: "overlay hide"
+            className: "overlay hide",
         }
     }
 }, body);
@@ -164,7 +164,6 @@ const showMenuListOnClick = on(".menu-icon", {
         toggleClass(overlayEl, "hide");
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         const { clientX, clientY } = e;
-        const centerX = parseFloat(getComputed(menuListEl).height) / 4;
         storeMenuListVariables
             .set("--menu-list-y", `${clientY}px`)
             .set("--menu-list-x", `${clientX}px`);
@@ -237,11 +236,16 @@ const aShortSummary = dom({
     }
 }, root);
 const fixIssuesThatAreLeft = on(w, {
-    orientationchange(e) {
+    load() {
+        overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
+    },
+    resize(e) {
+        e.preventDefault();
+        overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
         addClass(menuListEl, "hide");
         hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0;
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
     },
-    click() {
-    }
+    scroll() {
+    },
 });
