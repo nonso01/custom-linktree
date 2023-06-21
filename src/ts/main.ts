@@ -13,6 +13,7 @@ import {
   toggleClass,
   hasClass,
   rmClass,
+  socialNetworks 
 } from "./util.js"
 
 // Why am i not just making use of plain html ?
@@ -55,6 +56,8 @@ const themes = Object.freeze({
 
   }
 })
+
+// const getUserDefaultThemes = w.matchMedia("(prefers-color-sheme: dark)")
 
 
 const nav = navigator
@@ -299,7 +302,7 @@ const appVersion = dom({
   }
 }, root)
 
-const aShortSummary = dom({
+const aFunAndShortSummaryAboutMe = dom({
   summary: {
     node: "div",
     attr: {
@@ -322,8 +325,43 @@ const aShortSummary = dom({
   }
 }, root)
 
-// for minor consistency
+const dummySpace_1x = dom({
+  space: {
+    node: "div",
+    attr: {
+      className: "dummy-space"
+    }
+  }
+}, root)
 
+const networkCover = dom({
+  cover: {
+    node: "div",
+    attr: {
+      className: "network-cover"
+    }
+  }
+}, root)
+
+const connectWithMe = socialNetworks.forEach((value: any, i: number) => {
+  dom({
+    links: {
+      node: "div",
+      attr: {
+        className: `${value?.id} network`
+      },
+      innerDom: `
+      <div>
+      <a href="${value?.url}" target="_blank">
+      ${value?.id}
+      </a>
+      </div>
+      `
+    }
+  }, dq(".network-cover"))
+})
+
+// for minor consistency
 const fixIssuesThatAreLeft = on(w, {
   load() {
    overlayEl!.style.setProperty("--overlay-h", `${getComputed(html).height}`)

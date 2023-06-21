@@ -65,27 +65,25 @@ export function addClass(el, className) {
 export function rmClass(el, className) {
     return el.classList.remove(className);
 }
-export const data = {
-    "network": {
-        "github": {
-            "url": "https://github.com/nonso01",
-            "img": "/assets/logos/github-mark.svg",
-            "id": "0"
-        },
-        "LinkedIn": {
-            "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
-            "img": "/assets/logos/linkedIn.png",
-            "id": "1"
-        },
-        "twitter": {
-            "url": "https://twitter.com/NonsoMartin06",
-            "img": "/assets/logos/twitter.png",
-            "id": "2"
-        },
-        "portfolio": {
-            "url": "https://nonso01-test.netlify.app",
-            "img": "/assets/logos/logo-martin.svg",
-            "id": "3"
-        }
+export const socialNetworks = Object.freeze([
+    {
+        "url": "https://github.com/nonso01",
+        "img": "/assets/logos/github-mark.svg",
+        "id": "github"
+    },
+    {
+        "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
+        "img": "/assets/logos/linkedIn.png",
+        "id": "linkedin"
+    },
+    {
+        "url": "https://twitter.com/NonsoMartin06",
+        "img": "/assets/logos/twitter.png",
+        "id": "twitter"
+    },
+    {
+        "url": "https://nonso01-test.netlify.app",
+        "img": "/assets/logos/logo-martin.svg",
+        "id": "portfolio"
     }
-};
+]);

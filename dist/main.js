@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, } from "./util.js";
+import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
 const html = dq("html");
 const body = dq("body");
 const root = dq("#root");
@@ -213,7 +213,7 @@ const appVersion = dom({
         innerDom: `<span class="bold">Version  1.5.0<span>`
     }
 }, root);
-const aShortSummary = dom({
+const aFunAndShortSummaryAboutMe = dom({
     summary: {
         node: "div",
         attr: {
@@ -235,6 +235,39 @@ const aShortSummary = dom({
     `
     }
 }, root);
+const dummySpace_1x = dom({
+    space: {
+        node: "div",
+        attr: {
+            className: "dummy-space"
+        }
+    }
+}, root);
+const networkCover = dom({
+    cover: {
+        node: "div",
+        attr: {
+            className: "network-cover"
+        }
+    }
+}, root);
+const connectWithMe = socialNetworks.forEach((value, i) => {
+    dom({
+        links: {
+            node: "div",
+            attr: {
+                className: `${value?.id} network`
+            },
+            innerDom: `
+      <div>
+      <a href="${value?.url}" target="_blank">
+      ${value?.id}
+      </a>
+      </div>
+      `
+        }
+    }, dq(".network-cover"));
+});
 const fixIssuesThatAreLeft = on(w, {
     load() {
         overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);

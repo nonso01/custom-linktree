@@ -114,27 +114,26 @@ export function rmClass(el: HTMLElement | null, className: string) {
   return el!.classList.remove(className)
 }
 
-export const data: {network: object} = { 
-  "network": {
-    "github": {
+export const socialNetworks = Object.freeze([
+  {
     "url": "https://github.com/nonso01",
     "img": "/assets/logos/github-mark.svg",
-    "id": "0"
+    "id": "github"
   },
-  "LinkedIn": {
+  {
     "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
     "img": "/assets/logos/linkedIn.png",
-    "id": "1"
+    "id": "linkedin"
   },
-  "twitter": {
+  {
     "url": "https://twitter.com/NonsoMartin06",
     "img": "/assets/logos/twitter.png",
-    "id": "2"
+    "id": "twitter"
   },
-  "portfolio": {
+  {
    "url": "https://nonso01-test.netlify.app",
   "img": "/assets/logos/logo-martin.svg",
-  "id": "3"
+  "id": "portfolio"
   }
- }
-}
+ 
+])
