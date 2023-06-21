@@ -66,7 +66,7 @@ const headerSection = dom({
             className: "header fx center"
         },
         innerDom: `
-    <div class="nav fx center even">
+    <div class="nav fx center even shadow-1x">
     
     <div class="nonso-image">
     <img src="/assets/nonso01.jpg" alt="Nonso Martin">
@@ -86,7 +86,7 @@ const viewMyImage = dom({
     content: {
         node: "div",
         attr: {
-            className: "view-image fx column btw center hide"
+            className: "view-image fx column btw center hide shadow-1x"
         },
         cancelIconCover: {
             node: "div",
@@ -139,7 +139,7 @@ const menuList = dom({
     menuCover: {
         node: "div",
         attr: {
-            className: "menu-list hide"
+            className: "menu-list hide shadow-1x"
         },
         innerDom: `
     <div data-menu=cancel></div>
@@ -218,7 +218,7 @@ const aShortSummary = dom({
     summary: {
         node: "div",
         attr: {
-            className: "short-summary"
+            className: "short-summary shadow-1x"
         },
         innerDom: `
     <div class="summary-image">
