@@ -334,42 +334,76 @@ const dummySpace_1x = dom({
   }
 }, root)
 
-const networkCover = dom({
+const letsConnect = dom({
   cover: {
-    node: "div",
+    node: "h1",
+    text: "let's connect! 🤝🏽",
     attr: {
-      className: "network-cover"
+      className: "txt cn"
     }
   }
 }, root)
 
-const connectWithMe = socialNetworks.forEach((value: any, i: number) => {
+const dummySpace_2x = dom({
+  space: {
+    node: "div",
+    attr: {
+      className: "dummy-space"
+    }
+  }
+}, root)
+
+const networkCover = dom({
+  cover: {
+    node: "div",
+    attr: {
+      className: "network-cover shadow-1x"
+    }
+  }
+}, root)
+const connectWithMeThrough = socialNetworks.forEach((value: any, i: number) => {
   dom({
     links: {
       node: "div",
       attr: {
-        className: `${value?.id} network`
+        className: `${value?.id} network fx center`
       },
       innerDom: `
-      <div>
-      <a href="${value?.url}" target="_blank">
-      ${value?.id}
-      </a>
+      <div class="link fx center" data-link="${value?.url}">
+      
+      <img src="${value?.img}" alt="${value?.id} icon" data-link="${value?.url}">
+      
       </div>
       `
     }
   }, dq(".network-cover"))
 })
 
+const redirectToSocialNetwork = on(".network .link", {
+  click(e: Event) {
+    e.preventDefault()
+    
+    const anchor = <HTMLAnchorElement>dce("a")
+    anchor.href = this.dataset.link
+    anchor.target = "_blank"
+    anchor.click()
+  }
+})
+
+
 // for minor consistency
 const fixIssuesThatAreLeft = on(w, {
   load() {
    overlayEl!.style.setProperty("--overlay-h", `${getComputed(html).height}`)
+   overlayEl!.style.setProperty("--overlay-w", `${getComputed(html).width}`)
+
   },
   resize(e: Event) {
     // orientation failed to accomplish some effects
     e.preventDefault()
    overlayEl!.style.setProperty("--overlay-h", `${getComputed(html).height}`)
+   overlayEl!.style.setProperty("--overlay-w", `${getComputed(html).width}`)
+
 
   addClass(menuListEl, "hide")
   

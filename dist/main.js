@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
+import { log, w, dom, on, dq, dce, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
 const html = dq("html");
 const body = dq("body");
 const root = dq("#root");
@@ -243,38 +243,66 @@ const dummySpace_1x = dom({
         }
     }
 }, root);
+const letsConnect = dom({
+    cover: {
+        node: "h1",
+        text: "let's connect! 🤝🏽",
+        attr: {
+            className: "txt cn"
+        }
+    }
+}, root);
+const dummySpace_2x = dom({
+    space: {
+        node: "div",
+        attr: {
+            className: "dummy-space"
+        }
+    }
+}, root);
 const networkCover = dom({
     cover: {
         node: "div",
         attr: {
-            className: "network-cover"
+            className: "network-cover shadow-1x"
         }
     }
 }, root);
-const connectWithMe = socialNetworks.forEach((value, i) => {
+const connectWithMeThrough = socialNetworks.forEach((value, i) => {
     dom({
         links: {
             node: "div",
             attr: {
-                className: `${value?.id} network`
+                className: `${value?.id} network fx center`
             },
             innerDom: `
-      <div>
-      <a href="${value?.url}" target="_blank">
-      ${value?.id}
-      </a>
+      <div class="link fx center" data-link="${value?.url}">
+      
+      <img src="${value?.img}" alt="${value?.id} icon" data-link="${value?.url}">
+      
       </div>
       `
         }
     }, dq(".network-cover"));
 });
+const redirectToSocialNetwork = on(".network .link", {
+    click(e) {
+        e.preventDefault();
+        const anchor = dce("a");
+        anchor.href = this.dataset.link;
+        anchor.target = "_blank";
+        anchor.click();
+    }
+});
 const fixIssuesThatAreLeft = on(w, {
     load() {
         overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
+        overlayEl.style.setProperty("--overlay-w", `${getComputed(html).width}`);
     },
     resize(e) {
         e.preventDefault();
         overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
+        overlayEl.style.setProperty("--overlay-w", `${getComputed(html).width}`);
         addClass(menuListEl, "hide");
         hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0;
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
