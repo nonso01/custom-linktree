@@ -37,8 +37,9 @@ function toggleOverflow(c: boolean) {
 let incrementRandomInt = 0,
     incrementProgress = 0
 
-const minRotation = 0.8
-
+const minRotation = 0.8,
+      ONE_SEC = 1000
+      
 const themes = Object.freeze({
   dark: {
     "--m-main-bg-color": "#292930",
@@ -306,7 +307,7 @@ const aFunAndShortSummaryAboutMe = dom({
   summary: {
     node: "div",
     attr: {
-      className: "short-summary shadow-1x"
+      className: "short-summary shadow-1x rotating-line"
     },
     innerDom: `
     <div class="summary-image">
@@ -390,6 +391,14 @@ const redirectToSocialNetwork = on(".network .link", {
   }
 })
 
+const addTheHoverClassOnLinksRandomly = setInterval(function (n: number) {
+  const links = [...dqA(".link")![Symbol.iterator]()]
+  const randomaInt = Math.floor(Math.random() * len(links))
+  
+  // links[randomaInt]
+  toggleClass(<HTMLElement>links[randomaInt], "hover")
+  
+}, ONE_SEC)
 
 // for minor consistency
 const fixIssuesThatAreLeft = on(w, {

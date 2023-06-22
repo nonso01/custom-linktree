@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, dce, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
+import { log, w, dom, on, dq, dqA, dce, len, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
 const html = dq("html");
 const body = dq("body");
 const root = dq("#root");
@@ -6,7 +6,7 @@ function toggleOverflow(c) {
     c === true ? html.style.overflow = "hidden" : html.style.overflow = "scroll";
 }
 let incrementRandomInt = 0, incrementProgress = 0;
-const minRotation = 0.8;
+const minRotation = 0.8, ONE_SEC = 1000;
 const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",
@@ -217,7 +217,7 @@ const aFunAndShortSummaryAboutMe = dom({
     summary: {
         node: "div",
         attr: {
-            className: "short-summary shadow-1x"
+            className: "short-summary shadow-1x rotating-line"
         },
         innerDom: `
     <div class="summary-image">
@@ -294,6 +294,11 @@ const redirectToSocialNetwork = on(".network .link", {
         anchor.click();
     }
 });
+const addTheHoverClassOnLinksRandomly = setInterval(function (n) {
+    const links = [...dqA(".link")[Symbol.iterator]()];
+    const randomaInt = Math.floor(Math.random() * len(links));
+    toggleClass(links[randomaInt], "hover");
+}, ONE_SEC);
 const fixIssuesThatAreLeft = on(w, {
     load() {
         overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
