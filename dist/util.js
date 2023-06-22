@@ -65,6 +65,12 @@ export function addClass(el, className) {
 export function rmClass(el, className) {
     return el.classList.remove(className);
 }
+export function setCssProp(el, key, value) {
+    return el.style.setProperty(key, value);
+}
+export function rmCssProp(el, key) {
+    return el.style.removeProperty(key);
+}
 export const socialNetworks = Object.freeze([
     {
         "url": "https://github.com/nonso01",
@@ -77,7 +83,7 @@ export const socialNetworks = Object.freeze([
         "id": "linkedin"
     },
     {
-        "url": "https://twitter.com/NonsoMartin06",
+        "url": "https://twitter.com/@NonsoMartin6",
         "img": "/assets/logos/twitter.png",
         "id": "twitter"
     },

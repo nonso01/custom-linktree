@@ -1,4 +1,4 @@
-import { log, w, dom, on, dq, dqA, dce, len, getComputed, addClass, toggleClass, hasClass, rmClass, socialNetworks } from "./util.js";
+import { log, w, dom, on, dq, dqA, dce, len, getComputed, addClass, toggleClass, hasClass, rmClass, setCssProp, rmCssProp, socialNetworks } from "./util.js";
 const html = dq("html");
 const body = dq("body");
 const root = dq("#root");
@@ -86,7 +86,7 @@ const viewMyImage = dom({
     content: {
         node: "div",
         attr: {
-            className: "view-image fx column btw center hide shadow-1x"
+            className: "view-image fx column btw center hide shadow-1x fixed"
         },
         cancelIconCover: {
             node: "div",
@@ -127,7 +127,7 @@ const cancelMyImageOnClick = on(".cancel-icon", {
         addClass(myImageAdviceEl, "hide-image");
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         if (hasClass(myImageAdviceEl, "hide-image")) {
-            on(".hide-image", {
+            const hide = on(myImageAdviceEl, {
                 animationend() {
                     hasClass(this, "hide-image") && addClass(this, "hide");
                 }
@@ -167,7 +167,7 @@ const showMenuListOnClick = on(".menu-icon", {
         storeMenuListVariables
             .set("--menu-list-y", `${clientY}px`)
             .set("--menu-list-x", `${clientX}px`);
-        storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
+        storeMenuListVariables.forEach((v, k) => setCssProp(menuListEl, k, v));
     }
 });
 const rotateMenuList = on(".menu-list", {
@@ -176,8 +176,33 @@ const rotateMenuList = on(".menu-list", {
         const { clientX, clientY } = e.touches[0];
         const rotation = Math.round(clientX * minRotation);
         storeMenuListVariables.set("--menu-list-rotate", `${-rotation}deg`);
-        storeMenuListVariables.forEach((v, k) => menuListEl.style.setProperty(k, v));
+        storeMenuListVariables.forEach((v, k) => setCssProp(menuListEl, k, v));
     }
+});
+const yourBatteryInformations = dom({
+    batteryCover: {
+        node: "div",
+        attr: {
+            className: "battery-cover fixed hide"
+        },
+    }
+}, root);
+const batteryEl = dq(".battery-cover");
+const updateBatteryInfo = nav.getBattery().then(async (battery) => {
+    const { level, charging } = battery;
+    log(battery);
+    batteryEl.innerHTML = `
+  <div class="cancel-icon">
+  <img src="assets/icons/x.svg" alt="cancel icon">
+  </div>
+  `;
+    const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
+        click(e) {
+            e.stopImmediatePropagation();
+            toggleClass(batteryEl, "hide");
+            toggleClass(overlayEl, "hide");
+        }
+    });
 });
 const someOperationsDoneByMenuItems = on(".menu-list div", {
     click(e) {
@@ -187,17 +212,23 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
                 toggleClass(overlayEl, "hide");
                 hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
                 storeMenuListVariables.clear();
-                for (const v of menuListVariables)
-                    menuListEl.style.removeProperty(v);
+                for (const k of menuListVariables)
+                    rmCssProp(menuListEl, k);
                 break;
             case "moon":
                 for (const [k, v] of Object.entries(themes.dark))
-                    html.style.setProperty(k, v);
+                    setCssProp(html, k, v);
                 break;
             case "sun":
                 for (const [k, v] of Object.entries(themes.white))
-                    html.style.setProperty(k, v);
+                    setCssProp(html, k, v);
                 break;
+            case "battery":
+                toggleClass(batteryEl, "hide");
+                toggleClass(menuListEl, "hide");
+                storeMenuListVariables.clear();
+                for (const k of menuListVariables)
+                    rmCssProp(menuListEl, k);
             default:
                 log(this.dataset);
                 break;
@@ -299,17 +330,25 @@ const addTheHoverClassOnLinksRandomly = setInterval(function (n) {
     const randomaInt = Math.floor(Math.random() * len(links));
     toggleClass(links[randomaInt], "hover");
 }, ONE_SEC);
+const dummySpace_3x = dom({
+    space: {
+        node: "div",
+        attr: {
+            className: "dummy-space"
+        }
+    }
+}, root);
 const fixIssuesThatAreLeft = on(w, {
-    load() {
-        overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
-        overlayEl.style.setProperty("--overlay-w", `${getComputed(html).width}`);
+    focus() {
+        setCssProp(overlayEl, "--overlay-h", getComputed(html).height);
+        setCssProp(overlayEl, "--overlay-w", getComputed(html).width);
     },
     resize(e) {
         e.preventDefault();
-        overlayEl.style.setProperty("--overlay-h", `${getComputed(html).height}`);
-        overlayEl.style.setProperty("--overlay-w", `${getComputed(html).width}`);
+        setCssProp(overlayEl, "--overlay-h", getComputed(html).height);
+        setCssProp(overlayEl, "--overlay-w", getComputed(html).width);
         addClass(menuListEl, "hide");
-        hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") ? addClass(overlayEl, "hide") : void 0;
+        hasClass(menuListEl, "hide") && !hasClass(overlayEl, "hide") && hasClass(myImageAdviceEl, "hide") && hasClass(batteryEl, "hide") ? addClass(overlayEl, "hide") : void 0;
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
     },
     scroll() {
