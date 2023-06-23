@@ -309,7 +309,7 @@ const level = battery.level * 100
   function updateBatteryInfo(prop?: any) {
     return `
   <div class="user-info fx btw center">
-   <h2>Your Info  </h2>
+   <h2>Battery usage</h2>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
