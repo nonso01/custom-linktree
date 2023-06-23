@@ -201,6 +201,7 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
             e.stopImmediatePropagation();
             toggleClass(batteryEl, "hide");
             toggleClass(overlayEl, "hide");
+            hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
         }
     });
 });
