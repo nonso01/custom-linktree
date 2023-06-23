@@ -35,6 +35,13 @@ function toggleOverflow(c: boolean) {
   c === true ? html!.style.overflow = "hidden" : html!.style.overflow = "scroll"
 }
 
+function link(url: string) {
+  const anchor = <HTMLAnchorElement>dce("a")
+  anchor.href = url
+  anchor.target = "_blank"
+  anchor.click()
+}
+
 let incrementRandomInt = 0,
     incrementProgress = 0
 
@@ -206,6 +213,14 @@ const cancelMyImageOnClick = on(".cancel-icon", {
   }
 })
 
+const redirectToMyPortfolio = on(".nonso-brand", {
+  click(e: Event) {
+  alert("my portfolio is still a work in progress..")
+  
+  link("https://nonso01-test.netlify.app")
+  }
+})
+
 const menuList = dom({
   menuCover: {
     node: "div",
@@ -287,15 +302,40 @@ const yourBatteryInformations = dom({
 const batteryEl = dq(".battery-cover")
 
 const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
- const { level , charging } = battery
+// const { level , charging } = battery
+// log(battery)
+const level = battery.level * 100
   
-  // log(battery)
-  
-  batteryEl!.innerHTML = `
+  function updateBatteryInfo(prop?: any) {
+    return `
+  <div class="user-info fx btw center">
+   <h2>Your Info  </h2>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
-  `
+  </div>
+  
+  <div class="user-battery-screen"> 
+   <h3>${prop.level}%</h3>
+  </div>
+  
+  `}
+  
+  batteryEl!.innerHTML = updateBatteryInfo({level})
+  
+  battery.onlevelchange = (e: any) => {
+    log(e)
+    batteryEl!.innerHTML = updateBatteryInfo({
+      level: e.target.level * 100
+    })
+  }
+  
+  battery.onchargingchange = (e: any) => {
+    log(e)
+    batteryEl!.innerHTML = updateBatteryInfo({
+      level: e.target.level * 100
+    })
+  }
   
  const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
   click(e: Event) {
@@ -335,7 +375,7 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
         toggleClass(overlayEl, "hide")
         
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true)
-
+        
       storeMenuListVariables.clear()
         for(const k of menuListVariables) rmCssProp(menuListEl, k)
         break
@@ -450,14 +490,10 @@ const connectWithMeThrough = socialNetworks.forEach((value: any, i: number) => {
   }, dq(".network-cover"))
 })
 
-const redirectToSocialNetwork = on(".network .link", {
+const redirectToSocialNetworks = on(".network .link", {
   click(e: Event) {
     e.preventDefault()
-    
-    const anchor = <HTMLAnchorElement>dce("a")
-    anchor.href = this.dataset.link
-    anchor.target = "_blank"
-    anchor.click()
+     link(this.dataset.link)
   }
 })
 
@@ -505,10 +541,4 @@ const fixIssuesThatAreLeft = on(w, {
   },
   scroll() {
   },
-})
-
-const hidden = on(".hide-fixed-content", {
-  click() {
-    log("fixed")
-  }
 })

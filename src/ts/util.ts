@@ -139,9 +139,9 @@ export const socialNetworks = Object.freeze([
     "id": "twitter"
   },
   {
-   "url": "https://nonso01-test.netlify.app",
-  "img": "/assets/logos/logo-martin.svg",
-  "id": "portfolio"
+   "url": "https://wa.me/+23407087840213",
+  "img": "/assets/logos/whatsapp-logo.png",
+  "id": "whatsapp"
   }
  
 ])

@@ -5,6 +5,12 @@ const root = dq("#root");
 function toggleOverflow(c) {
     c === true ? html.style.overflow = "hidden" : html.style.overflow = "scroll";
 }
+function link(url) {
+    const anchor = dce("a");
+    anchor.href = url;
+    anchor.target = "_blank";
+    anchor.click();
+}
 let incrementRandomInt = 0, incrementProgress = 0;
 const minRotation = 0.8, ONE_SEC = 1000;
 const hide_fixed = "hide-fixed-content";
@@ -138,6 +144,12 @@ const cancelMyImageOnClick = on(".cancel-icon", {
         }
     }
 });
+const redirectToMyPortfolio = on(".nonso-brand", {
+    click(e) {
+        alert("my portfolio is still a work in progress..");
+        link("https://nonso01-test.netlify.app");
+    }
+});
 const menuList = dom({
     menuCover: {
         node: "div",
@@ -192,12 +204,35 @@ const yourBatteryInformations = dom({
 }, root);
 const batteryEl = dq(".battery-cover");
 const updateBatteryInfo = nav.getBattery().then(async (battery) => {
-    const { level, charging } = battery;
-    batteryEl.innerHTML = `
+    const level = battery.level * 100;
+    function updateBatteryInfo(prop) {
+        return `
+  <div class="user-info fx btw center">
+   <h2>Your Info  </h2>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
+  </div>
+  
+  <div class="user-battery-screen"> 
+   <h3>${prop.level}%</h3>
+  </div>
+  
   `;
+    }
+    batteryEl.innerHTML = updateBatteryInfo({ level });
+    battery.onlevelchange = (e) => {
+        log(e);
+        batteryEl.innerHTML = updateBatteryInfo({
+            level: e.target.level * 100
+        });
+    };
+    battery.onchargingchange = (e) => {
+        log(e);
+        batteryEl.innerHTML = updateBatteryInfo({
+            level: e.target.level * 100
+        });
+    };
     const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
         click(e) {
             e.stopImmediatePropagation();
@@ -329,13 +364,10 @@ const connectWithMeThrough = socialNetworks.forEach((value, i) => {
         }
     }, dq(".network-cover"));
 });
-const redirectToSocialNetwork = on(".network .link", {
+const redirectToSocialNetworks = on(".network .link", {
     click(e) {
         e.preventDefault();
-        const anchor = dce("a");
-        anchor.href = this.dataset.link;
-        anchor.target = "_blank";
-        anchor.click();
+        link(this.dataset.link);
     }
 });
 const addTheHoverClassOnLinksRandomly = setInterval(function (n) {
@@ -366,9 +398,4 @@ const fixIssuesThatAreLeft = on(w, {
     },
     scroll() {
     },
-});
-const hidden = on(".hide-fixed-content", {
-    click() {
-        log("fixed");
-    }
 });
