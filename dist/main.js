@@ -7,6 +7,7 @@ function toggleOverflow(c) {
 }
 let incrementRandomInt = 0, incrementProgress = 0;
 const minRotation = 0.8, ONE_SEC = 1000;
+const hide_fixed = "hide-fixed-content";
 const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",
@@ -116,7 +117,6 @@ const viewMyImageOnClick = on(".nonso-image img", {
         e.stopImmediatePropagation();
         toggleClass(overlayEl, "hide");
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
-        rmClass(myImageAdviceEl, "hide-image");
         toggleClass(myImageAdviceEl, "hide");
     }
 });
@@ -124,12 +124,15 @@ const cancelMyImageOnClick = on(".cancel-icon", {
     click(e) {
         e.stopImmediatePropagation();
         toggleClass(overlayEl, "hide");
-        addClass(myImageAdviceEl, "hide-image");
+        addClass(myImageAdviceEl, hide_fixed);
         hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
-        if (hasClass(myImageAdviceEl, "hide-image")) {
+        if (hasClass(myImageAdviceEl, hide_fixed)) {
             const hide = on(myImageAdviceEl, {
                 animationend() {
-                    hasClass(this, "hide-image") && addClass(this, "hide");
+                    if (hasClass(this, hide_fixed)) {
+                        rmClass(this, hide_fixed);
+                        addClass(this, "hide");
+                    }
                 }
             });
         }
@@ -143,7 +146,7 @@ const menuList = dom({
         },
         innerDom: `
     <div data-menu=cancel></div>
-    <div data-menu=palette></div>
+    <div data-menu=settings></div>
     <div data-menu=moon></div>
     <div data-menu=sun></div>
     <div data-menu=battery></div>
@@ -183,14 +186,13 @@ const yourBatteryInformations = dom({
     batteryCover: {
         node: "div",
         attr: {
-            className: "battery-cover fixed hide"
+            className: "battery-cover fixed hide shadow-1x"
         },
     }
 }, root);
 const batteryEl = dq(".battery-cover");
 const updateBatteryInfo = nav.getBattery().then(async (battery) => {
     const { level, charging } = battery;
-    log(battery);
     batteryEl.innerHTML = `
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
@@ -199,9 +201,19 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
     const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
         click(e) {
             e.stopImmediatePropagation();
-            toggleClass(batteryEl, "hide");
             toggleClass(overlayEl, "hide");
+            addClass(batteryEl, hide_fixed);
             hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
+            if (hasClass(batteryEl, hide_fixed)) {
+                const hide = on(batteryEl, {
+                    animationend() {
+                        if (hasClass(this, hide_fixed)) {
+                            rmClass(this, hide_fixed);
+                            addClass(this, "hide");
+                        }
+                    }
+                });
+            }
         }
     });
 });
@@ -354,4 +366,9 @@ const fixIssuesThatAreLeft = on(w, {
     },
     scroll() {
     },
+});
+const hidden = on(".hide-fixed-content", {
+    click() {
+        log("fixed");
+    }
 });
