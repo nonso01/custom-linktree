@@ -214,7 +214,7 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
   </div>
   </div>
   
-  <div class="user-battery-screen"> 
+  <div class="user-battery-screen fx center column"> 
    <h3>${prop.level}%</h3>
   </div>
   

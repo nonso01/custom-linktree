@@ -315,7 +315,7 @@ const level = battery.level * 100
   </div>
   </div>
   
-  <div class="user-battery-screen"> 
+  <div class="user-battery-screen fx center column"> 
    <h3>${prop.level}%</h3>
   </div>
   
