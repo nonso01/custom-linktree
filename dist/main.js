@@ -237,7 +237,7 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
             level
         });
     };
-    const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
+    const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
         click(e) {
             e.stopImmediatePropagation();
             toggleClass(overlayEl, "hide");

@@ -346,7 +346,7 @@ const low = level <= 15 ? "low" : "stable"
     })
   }
   
- const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
+const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
   click(e: Event) {
     e.stopImmediatePropagation()
     // toggleClass(batteryEl, "hide")
@@ -358,7 +358,7 @@ const low = level <= 15 ? "low" : "stable"
     
   if(hasClass(batteryEl, hide_fixed)) {
       
-     const hide = on(batteryEl, {
+    const hide = on(batteryEl, {
       animationend() {
          
       if(hasClass(<HTMLElement>this, hide_fixed)) {
