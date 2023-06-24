@@ -12,7 +12,7 @@ function link(url) {
     anchor.click();
 }
 let incrementRandomInt = 0, incrementProgress = 0;
-const minRotation = 0.8, ONE_SEC = 1000;
+const minRotation = 0.8, ONE_SEC = 1000, ONE_HUNDRED = 100;
 const hide_fixed = "hide-fixed-content";
 const themes = Object.freeze({
     dark: {
@@ -36,7 +36,7 @@ const progressAnimation = dom({
         node: "progress",
         attr: {
             min: 0,
-            max: 100,
+            max: ONE_HUNDRED,
             value: 0,
         },
     }
@@ -204,36 +204,40 @@ const yourBatteryInformations = dom({
 }, root);
 const batteryEl = dq(".battery-cover");
 const updateBatteryInfo = nav.getBattery().then(async (battery) => {
-    const level = battery.level * 100;
-    function updateBatteryInfo(prop) {
+    const level = Math.round(battery.level * ONE_HUNDRED);
+    const low = level <= 15 ? "low" : "stable";
+    function updateBattery(prop) {
         return `
   <div class="user-info fx btw center">
-   <h2>Battery usage</h2>
+   <h3>Battery usage</h3>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
   </div>
   
   <div class="user-battery-screen fx center column"> 
-   <h3>${prop.level}%</h3>
+   <h3 class="${prop?.low}">
+   ${prop.level}%
+   </h3>
   </div>
   
   `;
     }
-    batteryEl.innerHTML = updateBatteryInfo({ level });
+    batteryEl.innerHTML = updateBattery({ level, low });
+    setCssProp(batteryEl, "--battery-level", `${level}%`);
     battery.onlevelchange = (e) => {
-        log(e);
-        batteryEl.innerHTML = updateBatteryInfo({
-            level: e.target.level * 100
-        });
+        const level = Math.round(e.target.level * ONE_HUNDRED);
+        const low = level <= 15 ? "low" : "stable";
+        batteryEl.innerHTML = updateBattery({ level, low });
+        setCssProp(batteryEl, "--battery-level", `${level}%`);
     };
     battery.onchargingchange = (e) => {
-        log(e);
-        batteryEl.innerHTML = updateBatteryInfo({
-            level: e.target.level * 100
+        const level = Math.round(e.target.level * ONE_HUNDRED);
+        batteryEl.innerHTML = updateBattery({
+            level
         });
     };
-    const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
+    const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
         click(e) {
             e.stopImmediatePropagation();
             toggleClass(overlayEl, "hide");
@@ -251,7 +255,7 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
             }
         }
     });
-});
+}).catch((err) => log(err));
 const someOperationsDoneByMenuItems = on(".menu-list div", {
     click(e) {
         switch (this.dataset.menu) {
@@ -277,6 +281,7 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
                 storeMenuListVariables.clear();
                 for (const k of menuListVariables)
                     rmCssProp(menuListEl, k);
+                break;
             default:
                 log(this.dataset);
                 break;
@@ -379,8 +384,9 @@ const dummySpace_3x = dom({
     space: {
         node: "div",
         attr: {
-            className: "dummy-space"
-        }
+            className: "dummy-space fx center column"
+        },
+        text: "todo!"
     }
 }, root);
 const fixIssuesThatAreLeft = on(w, {

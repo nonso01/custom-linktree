@@ -46,7 +46,8 @@ let incrementRandomInt = 0,
     incrementProgress = 0
 
 const minRotation = 0.8,
-      ONE_SEC = 1000
+      ONE_SEC = 1000,
+      ONE_HUNDRED = 100
 
 const hide_fixed = "hide-fixed-content"
 
@@ -79,7 +80,7 @@ const progressAnimation = dom({
     node: "progress", // use this el
     attr: {
       min: 0,
-      max: 100,
+      max: ONE_HUNDRED,
       value: 0,
     },
   }
@@ -304,40 +305,48 @@ const batteryEl = dq(".battery-cover")
 const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
 // const { level , charging } = battery
 // log(battery)
-const level = battery.level * 100
-  
-  function updateBatteryInfo(prop?: any) {
+const level = Math.round(battery.level * ONE_HUNDRED)
+const low = level <= 15 ? "low" : "stable"
+
+  function updateBattery(prop?: any) {
     return `
   <div class="user-info fx btw center">
-   <h2>Battery usage</h2>
+   <h3>Battery usage</h3>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
   </div>
   
   <div class="user-battery-screen fx center column"> 
-   <h3>${prop.level}%</h3>
+   <h3 class="${prop?.low }">
+   ${prop.level}%
+   </h3>
   </div>
   
   `}
   
-  batteryEl!.innerHTML = updateBatteryInfo({level})
+  
+  batteryEl!.innerHTML = updateBattery({level, low})
+  setCssProp(batteryEl, "--battery-level", `${level}%`)
   
   battery.onlevelchange = (e: any) => {
-    log(e)
-    batteryEl!.innerHTML = updateBatteryInfo({
-      level: e.target.level * 100
-    })
+    const level = Math.round(e.target.level * ONE_HUNDRED)
+    const low = level <= 15 ? "low" : "stable"
+
+    batteryEl!.innerHTML = updateBattery({ level, low  })
+    setCssProp(batteryEl, "--battery-level", `${level}%`)
+
   }
   
   battery.onchargingchange = (e: any) => {
-    log(e)
-    batteryEl!.innerHTML = updateBatteryInfo({
-      level: e.target.level * 100
+    const level = Math.round(e.target.level * ONE_HUNDRED)
+    // log(e)
+    batteryEl!.innerHTML = updateBattery({
+      level
     })
   }
   
- const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
+ const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
   click(e: Event) {
     e.stopImmediatePropagation()
     // toggleClass(batteryEl, "hide")
@@ -363,7 +372,7 @@ const level = battery.level * 100
   }
 })
 
-})
+}).catch((err: any) => log(err))
 
 
 
@@ -394,7 +403,7 @@ const someOperationsDoneByMenuItems = on(".menu-list div", {
         // for consistency 
         storeMenuListVariables.clear()
         for(const k of menuListVariables) rmCssProp(menuListEl, k)
-
+        break
         default:
         log(this.dataset)
         break
@@ -510,8 +519,9 @@ const dummySpace_3x = dom({
   space: {
     node: "div",
     attr: {
-      className: "dummy-space"
-    }
+      className: "dummy-space fx center column"
+    },
+    text: "todo!"
   }
 }, root)
 
