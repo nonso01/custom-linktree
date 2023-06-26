@@ -429,16 +429,11 @@ const aFunAndShortSummaryAboutMe = dom({
       className: "short-summary shadow-1x rotating-line"
     },
     innerDom: `
-    <div class="summary-image">
-    <picture>
-        <source srcset="/assets/gifs/html_code.webp" type="image/webp">
-        <img src="" alt="html_code_gif">
-    </picture>
-    </div>
+    <div class="summary-image"></div>
     
     <div class="summary-text"> 
     <p>
-    Hello 🥴 , i go by the name のんそ さん [ Nonso ] yeah i do love japanese and as well the Japanese cultures, but that's for another day. Hope you know what the image represents ? , lol if you don't then that's how some of us get initiated and later get into trouble!, what trouble ? am taking about the one involving hacking NASA using CSS, don't try it at home FBI might visit you. 
+    Hello 🥴 , i go by the name のんそ さん [ Nonso ] yeah i do love japanese and as well the Japanese cultures, but that's for another day. Hope you know what the image represents ? , lol if you don't then that's how some of us get initiated and later get into trouble!, what trouble ? am taking about the one involving hacking NASA using SVG, don't try it at home FBI might visit you. 
     </p>
     </div>
     `
