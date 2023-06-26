@@ -244,12 +244,12 @@ if (nav.getBattery) {
   <span>${userAgent[3] ?? "..."}</span>
   </li>
   
-  <li>Manufacturer:
-  <span>${userAgent[4] ?? "..."}</span>
+  <li>Browser:
+  <span>${userAgent[9].split(/(\/)/)[0] ?? "..."}</span>
   </li>
   
-  <li>Build:
-  <span>${userAgent[5] ?? "..."}</span>
+  <li>Ip:
+  <span>${userAgent[9].split(/(\/)/)[1] ?? "..."}</span>
    </li>
    
   </ul>
@@ -427,14 +427,6 @@ const dummySpace_3x = dom({
         text: "todo!"
     }
 }, root);
-userAgent.forEach((v, n) => {
-    dom({
-        testing: {
-            node: "div",
-            text: `${n} - ${v}`
-        }
-    }, root);
-});
 const fixIssuesThatAreLeft = on(w, {
     focus() {
         setCssProp(overlayEl, "--overlay-h", getComputed(html).height);

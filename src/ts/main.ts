@@ -59,7 +59,7 @@ let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/
 const platform = nav.platform.split(" ").join(", ")
 const userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s: string, n: number) => s !== "")
 // log(nav)
-// log(nav.userAgent)
+// log(userAgent)
 
 const themes = Object.freeze({
   dark: {
@@ -351,12 +351,12 @@ const level = Math.round(battery.level * ONE_HUNDRED),
   <span>${userAgent[3] ?? "..."}</span>
   </li>
   
-  <li>Manufacturer:
-  <span>${userAgent[4] ?? "..."}</span>
+  <li>Browser:
+  <span>${userAgent[9].split(/(\/)/)[0] ?? "..."}</span>
   </li>
   
-  <li>Build:
-  <span>${userAgent[5] ?? "..."}</span>
+  <li>Ip:
+  <span>${userAgent[9].split(/(\/)/)[1] ?? "..."}</span>
    </li>
    
   </ul>
@@ -572,14 +572,15 @@ const dummySpace_3x = dom({
   }
 }, root)
 
-userAgent.forEach((v: string, n: number ) => {
-  dom({
-    testing: {
-      node: "div",
-      text: `${n} - ${v}`
-    }
-  }, root)
-})
+// userAgent.forEach((v: string, n: number ) => {
+//   dom({
+//     testing: {
+//       node: "div",
+//       text: `${n} - ${v}`
+//     }
+//   }, root)
+// })
+
 // for minor consistency
 const fixIssuesThatAreLeft = on(w, {
   focus() {
