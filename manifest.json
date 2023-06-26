@@ -1,4 +1,9 @@
 {
   "name": "custom-linktree",
-  "background_color": "#292930"
+  "background_color": "#292930",
+  "theme_color": "#292930",
+  "dir": "ltr",
+  "lang": "en-us",
+  "description": "a short web page to display all my current and active social media likns, so let's connect.",
+  "categories": ["frontend", "development", "fun"]
 }
