@@ -249,7 +249,7 @@ if (nav.getBattery) {
   </li>
   
   <li>Ip:
-  <span>${userAgent[9].split(/(\/)/)[1] ?? "..."}</span>
+  <span>${userAgent[9].split(/(\/)/)[2] ?? "..."}</span>
    </li>
    
   </ul>
