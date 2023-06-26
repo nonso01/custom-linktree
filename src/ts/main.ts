@@ -49,6 +49,8 @@ const minRotation = 0.8,
       ONE_SEC = 1000,
       ONE_HUNDRED = 100
 
+const linkTreeVersion = "Version 1.5.0"
+
 const hide_fixed = "hide-fixed-content"
 
 const nav = navigator
@@ -382,8 +384,8 @@ const level = Math.round(battery.level * ONE_HUNDRED),
   }
   
 const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
-  async click(e: Event) {
-    e.stopImmediatePropagation()
+   click(e: Event) {
+    e.stopPropagation()
     // toggleClass(batteryEl, "hide")
     toggleClass(overlayEl, "hide")
     
@@ -393,7 +395,7 @@ const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
     
   if(hasClass(batteryEl, hide_fixed)) {
       
-    const hide = await on(batteryEl, {
+    const hide = on(batteryEl, {
       animationend() {
          
       if(hasClass(<HTMLElement>this, hide_fixed)) {
@@ -453,7 +455,7 @@ const appVersion = dom({
     attr: {
       className: "app-version fx center"
     },
-    innerDom: `<span class="bold">Version  1.5.0<span>`
+    innerDom: `<span class="bold">${linkTreeVersion}<span>`
   }
 }, root)
 
@@ -468,7 +470,7 @@ const aFunAndShortSummaryAboutMe = dom({
     
     <div class="summary-text"> 
     <p>
-    Hello 🥴 , i go by the name のんそ さん [ Nonso ] yeah i do love japanese and as well the Japanese cultures, but that's for another day. Hope you know what the image represents ? , lol if you don't then that's how some of us get initiated and later get into trouble!, what trouble ? am taking about the one involving hacking NASA using SVG, don't try it at home FBI might visit you. 
+    konnichiwa , watashiwa のんそ です [my name is Nonso], i don't know about you but I just love Nihon, anyways that's for another day. Hope you know what the image represents ? , lol if you don't then that's how some of us get initiated and later get into trouble!, what trouble ? am taking about the one involving hacking NASA using SVG, don't try it at home FBI might visit you. 
     </p>
     </div>
     `
