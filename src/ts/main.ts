@@ -57,9 +57,9 @@ const nav = navigator
 
 let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/
 const platform = nav.platform.split(" ").join(", "),
-      userAgent = nav.userAgent.split(" ").filter((s: string, n: number) => s !== "")
+      userAgent = nav.appVersion.split(" ").filter((s: string, n: number) => s !== "")
 // log(nav)
-log(userAgent)
+// log(userAgent)
 
 const themes = Object.freeze({
   dark: {
