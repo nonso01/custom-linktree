@@ -17,7 +17,7 @@ const linkTreeVersion = "Version 1.5.0";
 const hide_fixed = "hide-fixed-content";
 const nav = navigator;
 let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/;
-const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s, n) => s !== "");
+const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(" ").filter((s, n) => s !== "");
 log(userAgent);
 const themes = Object.freeze({
     dark: {

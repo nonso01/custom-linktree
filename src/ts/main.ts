@@ -57,7 +57,7 @@ const nav = navigator
 
 let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/
 const platform = nav.platform.split(" ").join(", "),
-      userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s: string, n: number) => s !== "")
+      userAgent = nav.userAgent.split(" ").filter((s: string, n: number) => s !== "")
 // log(nav)
 log(userAgent)
 
