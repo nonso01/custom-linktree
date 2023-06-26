@@ -14,6 +14,10 @@ function link(url) {
 let incrementRandomInt = 0, incrementProgress = 0;
 const minRotation = 0.8, ONE_SEC = 1000, ONE_HUNDRED = 100;
 const hide_fixed = "hide-fixed-content";
+const nav = navigator;
+let re = /\s+|\(|\)|\;/;
+const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(re).filter((s, n) => s !== "");
+log(userAgent);
 const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",
@@ -30,7 +34,6 @@ const themes = Object.freeze({
         "--m-progress-color": "#424242",
     }
 });
-const nav = navigator;
 const progressAnimation = dom({
     loading: {
         node: "progress",
@@ -198,55 +201,79 @@ const yourBatteryInformations = dom({
     batteryCover: {
         node: "div",
         attr: {
-            className: "battery-cover fixed hide shadow-1x"
+            className: "battery-cover fixed hide shadow-1x fx column btw"
         },
     }
 }, root);
 const batteryEl = dq(".battery-cover");
 const updateBatteryInfo = nav.getBattery().then(async (battery) => {
-    const level = Math.round(battery.level * ONE_HUNDRED);
-    const low = level <= 15 ? "low" : "stable";
+    const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
     function updateBattery(prop) {
         return `
-  <div class="user-info fx btw center">
+  <div class="fx btw center">
    <h3>Battery usage</h3>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
   </div>
   </div>
   
-  <div class="user-battery-screen fx center column"> 
-   <h3 class="${prop?.low}">
-   ${prop.level}%
-   </h3>
+  <div class="user-battery-screen fx center column self center"> 
+   <h4 class="${prop?.low}">
+   ${prop?.level}%
+   </h4>
   </div>
   
-  <div class="txt cn">todo!</div>
+  <div class="user-info self center">
+  <ul>
+  
+  <li>Charging: 
+  <span>${prop?.charging}</span>
+  </li>
+  
+  <li>Os: 
+  <span>${prop?.platform}</span>
+  </li>
+  
+  <li>Platform: 
+  <span>${userAgent[2] ?? "..."}</span>
+  </li>
+  
+  <li>Version:
+  <span>${userAgent[3] ?? "..."}</span>
+  </li>
+  
+  <li>Manufacturer:
+  <span>${userAgent[4] ?? "..."}</span>
+  </li>
+  
+  <li>Build:
+  <span>${userAgent[5] ?? "..."}</span>
+   </li>
+   
+  </ul>
+  </div>
   
   `;
     }
-    batteryEl.innerHTML = updateBattery({ level, low });
+    batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
     setCssProp(batteryEl, "--battery-level", `${level}%`);
     battery.onlevelchange = (e) => {
-        const level = Math.round(e.target.level * ONE_HUNDRED);
-        const low = level <= 15 ? "low" : "stable";
-        batteryEl.innerHTML = updateBattery({ level, low });
+        const level = Math.round(e.target.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
+        batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
         setCssProp(batteryEl, "--battery-level", `${level}%`);
     };
     battery.onchargingchange = (e) => {
-        const level = Math.round(e.target.level * ONE_HUNDRED);
-        batteryEl.innerHTML = updateBattery({
-            level
-        });
+        const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
+        batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
     };
-    const cancelBatteryInfoOnClick = await on(".battery-cover .cancel-icon", {
-        click(e) {
+    const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
+        async click(e) {
             e.stopImmediatePropagation();
             toggleClass(overlayEl, "hide");
             addClass(batteryEl, hide_fixed);
             hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
             if (hasClass(batteryEl, hide_fixed)) {
-                const hide = on(batteryEl, {
+                const hide = await on(batteryEl, {
                     animationend() {
                         if (hasClass(this, hide_fixed)) {
                             rmClass(this, hide_fixed);
@@ -345,7 +372,7 @@ const networkCover = dom({
     cover: {
         node: "div",
         attr: {
-            className: "network-cover shadow-1x"
+            className: "network-cover"
         }
     }
 }, root);
@@ -354,7 +381,7 @@ const connectWithMeThrough = socialNetworks.forEach((value, i) => {
         links: {
             node: "div",
             attr: {
-                className: `${value?.id} network fx center`
+                className: `${value?.id} network fx center shadow-1x`
             },
             innerDom: `
       <div class="link fx center" data-link="${value?.url}">
