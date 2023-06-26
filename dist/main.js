@@ -221,6 +221,8 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
    </h3>
   </div>
   
+  <div class="txt cn">todo!</div>
+  
   `;
     }
     batteryEl.innerHTML = updateBattery({ level, low });
