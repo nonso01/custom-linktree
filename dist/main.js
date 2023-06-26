@@ -427,6 +427,14 @@ const dummySpace_3x = dom({
         text: "todo!"
     }
 }, root);
+userAgent.forEach((v, n) => {
+    dom({
+        testing: {
+            node: "div",
+            text: `${n} - ${v}`
+        }
+    }, root);
+});
 const fixIssuesThatAreLeft = on(w, {
     focus() {
         setCssProp(overlayEl, "--overlay-h", getComputed(html).height);

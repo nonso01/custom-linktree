@@ -572,6 +572,14 @@ const dummySpace_3x = dom({
   }
 }, root)
 
+userAgent.forEach((v: string, n: number ) => {
+  dom({
+    testing: {
+      node: "div",
+      text: `${n} - ${v}`
+    }
+  }, root)
+})
 // for minor consistency
 const fixIssuesThatAreLeft = on(w, {
   focus() {
