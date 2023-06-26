@@ -304,88 +304,33 @@ const yourBatteryInformations = dom({
     attr: {
       className: "battery-cover fixed hide shadow-1x fx column btw"
     },
-  }
-}, root)
-
-const batteryEl = dq(".battery-cover")
-
-
-if (nav.getBattery) {
-const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
-const level = Math.round(battery.level * ONE_HUNDRED),
-      low = level <= 15 ? "low" : "stable",
-      { charging } = battery
-// TODO
-
-  function updateBattery(prop?: any) {
-    return `
-  <div class="fx btw center">
+    cancelIcon: {
+      node: "div",
+      attr: {
+        className: "fx btw center"
+      },
+      innerDom: `
    <h3>Battery usage</h3>
   <div class="cancel-icon">
   <img src="assets/icons/x.svg" alt="cancel icon">
-  </div>
-  </div>
-  
-  <div class="user-battery-screen fx center column self center"> 
-   <h4 class="${prop?.low }">
-   ${prop?.level}%
-   </h4>
-  </div>
-  
-  <div class="user-info self center">
-  <ul>
-  
-  <li>Charging: 
-  <span>${prop?.charging}</span>
-  </li>
-  
-  <li>Os: 
-  <span>${platform}</span>
-  </li>
-  
-  <li>Platform: 
-  <span>${userAgent[2] ?? "..."}</span>
-  </li>
-  
-  <li>Version:
-  <span>${userAgent[3] ?? "..."}</span>
-  </li>
-  
-  <li>Browser:
-  <span>${userAgent[9].split(/(\/)/)[0] ?? "..."}</span>
-  </li>
-  
-  <li>Ip:
-  <span>${userAgent[9].split(/(\/)/)[2] ?? "..."}</span>
-   </li>
-   
-  </ul>
-  </div>
-  
-  `}
-  
-  
-  batteryEl!.innerHTML = updateBattery({level, low, charging})
-  setCssProp(batteryEl, "--battery-level", `${level}%`)
-  
-  battery.onlevelchange = (e: any) => {
-   const level = Math.round(e.target.level * ONE_HUNDRED),
-         low = level <= 15 ? "low" : "stable",
-        { charging } = battery
-
-    batteryEl!.innerHTML = updateBattery({ level, low, charging})
-    setCssProp(batteryEl, "--battery-level", `${level}%`)
-
+      `
+    },
+    batterUserCover: {
+      node: "div",
+      attr: {
+        className: "battery-user-cover fx column center even"
+      },
+    }
   }
-  
-  battery.onchargingchange = (e: any) => {
-    const level = Math.round(battery.level * ONE_HUNDRED),
-      low = level <= 15 ? "low" : "stable",
-      { charging } = battery
-    // log(e)
-    batteryEl!.innerHTML = updateBattery({level, low, charging})
-  }
-  
+}, root)
+
+/*
+ 
+  */
+const batteryEl = dq(".battery-cover")
+const batteryInnerEl = dq(".battery-cover .battery-user-cover")
+
+
 const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
    click(e: Event) {
     e.stopPropagation()
@@ -412,6 +357,75 @@ const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
   }
 })
 
+
+if (nav.getBattery) {
+const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
+const level = Math.round(battery.level * ONE_HUNDRED),
+      low = level <= 15 ? "low" : "stable",
+      { charging } = battery
+// TODO
+
+  function updateBattery(prop?: any) {
+    return `
+  
+  
+  <div class="user-battery-screen fx center column self center"> 
+   <h4 class="${prop?.low }">
+   ${prop?.level}%
+   </h4>
+  </div>
+  
+  <div class="user-info self center">
+  <ul>
+  <li>Charging: 
+  <span>${prop?.charging}</span>
+  </li>
+  
+  <li>Os: 
+  <span>${platform}</span>
+  </li>
+  
+  <li>Platform: 
+  <span>${userAgent[2] ?? "..."}</span>
+  </li>
+  
+  <li>Version:
+  <span>${userAgent[3] ?? "..."}</span>
+  </li>
+  
+  <li>Browser:
+  <span>${userAgent[9].split(/(\/)/)[0] ?? "..."}</span>
+  </li>
+  
+  <li>Ip:
+  <span>${userAgent[9].split(/(\/)/)[2] ?? "..."}</span>
+   </li>
+  </ul>
+  </div>
+  `}
+  
+  
+  batteryInnerEl!.innerHTML = updateBattery({level, low, charging})
+  setCssProp(batteryEl, "--battery-level", `${level}%`)
+  
+  battery.onlevelchange = (e: any) => {
+   const level = Math.round(e.target.level * ONE_HUNDRED),
+         low = level <= 15 ? "low" : "stable",
+        { charging } = battery
+
+    batteryInnerEl!.innerHTML = updateBattery({ level, low, charging})
+    setCssProp(batteryEl, "--battery-level", `${level}%`)
+
+  }
+  
+  battery.onchargingchange = (e: any) => {
+    const level = Math.round(battery.level * ONE_HUNDRED),
+      low = level <= 15 ? "low" : "stable",
+      { charging } = battery
+    // log(e)
+    batteryInnerEl!.innerHTML = updateBattery({level, low, charging})
+  }
+  
 }).catch((err: any) => log(err))
 
 } else {

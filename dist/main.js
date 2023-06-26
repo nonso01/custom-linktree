@@ -204,20 +204,51 @@ const yourBatteryInformations = dom({
         attr: {
             className: "battery-cover fixed hide shadow-1x fx column btw"
         },
+        cancelIcon: {
+            node: "div",
+            attr: {
+                className: "fx btw center"
+            },
+            innerDom: `
+   <h3>Battery usage</h3>
+  <div class="cancel-icon">
+  <img src="assets/icons/x.svg" alt="cancel icon">
+      `
+        },
+        batterUserCover: {
+            node: "div",
+            attr: {
+                className: "battery-user-cover fx column center even"
+            },
+        }
     }
 }, root);
 const batteryEl = dq(".battery-cover");
+const batteryInnerEl = dq(".battery-cover .battery-user-cover");
+const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
+    click(e) {
+        e.stopPropagation();
+        toggleClass(overlayEl, "hide");
+        addClass(batteryEl, hide_fixed);
+        hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
+        if (hasClass(batteryEl, hide_fixed)) {
+            const hide = on(batteryEl, {
+                animationend() {
+                    if (hasClass(this, hide_fixed)) {
+                        rmClass(this, hide_fixed);
+                        addClass(this, "hide");
+                    }
+                }
+            });
+        }
+    }
+});
 if (nav.getBattery) {
     const updateBatteryInfo = nav.getBattery().then(async (battery) => {
         const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
         function updateBattery(prop) {
             return `
-  <div class="fx btw center">
-   <h3>Battery usage</h3>
-  <div class="cancel-icon">
-  <img src="assets/icons/x.svg" alt="cancel icon">
-  </div>
-  </div>
+  
   
   <div class="user-battery-screen fx center column self center"> 
    <h4 class="${prop?.low}">
@@ -227,7 +258,6 @@ if (nav.getBattery) {
   
   <div class="user-info self center">
   <ul>
-  
   <li>Charging: 
   <span>${prop?.charging}</span>
   </li>
@@ -251,41 +281,21 @@ if (nav.getBattery) {
   <li>Ip:
   <span>${userAgent[9].split(/(\/)/)[2] ?? "..."}</span>
    </li>
-   
   </ul>
   </div>
-  
   `;
         }
-        batteryEl.innerHTML = updateBattery({ level, low, charging });
+        batteryInnerEl.innerHTML = updateBattery({ level, low, charging });
         setCssProp(batteryEl, "--battery-level", `${level}%`);
         battery.onlevelchange = (e) => {
             const level = Math.round(e.target.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
-            batteryEl.innerHTML = updateBattery({ level, low, charging });
+            batteryInnerEl.innerHTML = updateBattery({ level, low, charging });
             setCssProp(batteryEl, "--battery-level", `${level}%`);
         };
         battery.onchargingchange = (e) => {
             const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
-            batteryEl.innerHTML = updateBattery({ level, low, charging });
+            batteryInnerEl.innerHTML = updateBattery({ level, low, charging });
         };
-        const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
-            click(e) {
-                e.stopPropagation();
-                toggleClass(overlayEl, "hide");
-                addClass(batteryEl, hide_fixed);
-                hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
-                if (hasClass(batteryEl, hide_fixed)) {
-                    const hide = on(batteryEl, {
-                        animationend() {
-                            if (hasClass(this, hide_fixed)) {
-                                rmClass(this, hide_fixed);
-                                addClass(this, "hide");
-                            }
-                        }
-                    });
-                }
-            }
-        });
     }).catch((err) => log(err));
 }
 else {
