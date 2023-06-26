@@ -308,7 +308,9 @@ const yourBatteryInformations = dom({
 
 const batteryEl = dq(".battery-cover")
 
-const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
+
+if (nav.getBattery) {
+  const updateBatteryInfo = nav.getBattery().then(async (battery: any) => {
 const level = Math.round(battery.level * ONE_HUNDRED),
       low = level <= 15 ? "low" : "stable",
       { charging } = battery
@@ -337,7 +339,7 @@ const level = Math.round(battery.level * ONE_HUNDRED),
   </li>
   
   <li>Os: 
-  <span>${prop?.platform}</span>
+  <span>${platform}</span>
   </li>
   
   <li>Platform: 
@@ -362,7 +364,7 @@ const level = Math.round(battery.level * ONE_HUNDRED),
   `}
   
   
-  batteryEl!.innerHTML = updateBattery({level, low, charging, platform})
+  batteryEl!.innerHTML = updateBattery({level, low, charging})
   setCssProp(batteryEl, "--battery-level", `${level}%`)
   
   battery.onlevelchange = (e: any) => {
@@ -370,7 +372,7 @@ const level = Math.round(battery.level * ONE_HUNDRED),
          low = level <= 15 ? "low" : "stable",
         { charging } = battery
 
-    batteryEl!.innerHTML = updateBattery({ level, low, charging, platform})
+    batteryEl!.innerHTML = updateBattery({ level, low, charging})
     setCssProp(batteryEl, "--battery-level", `${level}%`)
 
   }
@@ -380,7 +382,7 @@ const level = Math.round(battery.level * ONE_HUNDRED),
       low = level <= 15 ? "low" : "stable",
       { charging } = battery
     // log(e)
-    batteryEl!.innerHTML = updateBattery({level, low, charging, platform})
+    batteryEl!.innerHTML = updateBattery({level, low, charging})
   }
   
 const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
@@ -410,6 +412,18 @@ const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
 })
 
 }).catch((err: any) => log(err))
+
+} else {
+  batteryEl!.innerHTML = `
+  <div class="fx btw center">
+   <h3>Battery usage</h3>
+  <div class="cancel-icon">
+  <img src="assets/icons/x.svg" alt="cancel icon">
+  </div>
+  </div>
+  <span> NOT SUPPORTED </span>
+  `
+}
 
 
 

@@ -207,10 +207,11 @@ const yourBatteryInformations = dom({
     }
 }, root);
 const batteryEl = dq(".battery-cover");
-const updateBatteryInfo = nav.getBattery().then(async (battery) => {
-    const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
-    function updateBattery(prop) {
-        return `
+if (nav.getBattery) {
+    const updateBatteryInfo = nav.getBattery().then(async (battery) => {
+        const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
+        function updateBattery(prop) {
+            return `
   <div class="fx btw center">
    <h3>Battery usage</h3>
   <div class="cancel-icon">
@@ -232,7 +233,7 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
   </li>
   
   <li>Os: 
-  <span>${prop?.platform}</span>
+  <span>${platform}</span>
   </li>
   
   <li>Platform: 
@@ -255,37 +256,49 @@ const updateBatteryInfo = nav.getBattery().then(async (battery) => {
   </div>
   
   `;
-    }
-    batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
-    setCssProp(batteryEl, "--battery-level", `${level}%`);
-    battery.onlevelchange = (e) => {
-        const level = Math.round(e.target.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
-        batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
-        setCssProp(batteryEl, "--battery-level", `${level}%`);
-    };
-    battery.onchargingchange = (e) => {
-        const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
-        batteryEl.innerHTML = updateBattery({ level, low, charging, platform });
-    };
-    const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
-        click(e) {
-            e.stopPropagation();
-            toggleClass(overlayEl, "hide");
-            addClass(batteryEl, hide_fixed);
-            hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
-            if (hasClass(batteryEl, hide_fixed)) {
-                const hide = on(batteryEl, {
-                    animationend() {
-                        if (hasClass(this, hide_fixed)) {
-                            rmClass(this, hide_fixed);
-                            addClass(this, "hide");
-                        }
-                    }
-                });
-            }
         }
-    });
-}).catch((err) => log(err));
+        batteryEl.innerHTML = updateBattery({ level, low, charging });
+        setCssProp(batteryEl, "--battery-level", `${level}%`);
+        battery.onlevelchange = (e) => {
+            const level = Math.round(e.target.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
+            batteryEl.innerHTML = updateBattery({ level, low, charging });
+            setCssProp(batteryEl, "--battery-level", `${level}%`);
+        };
+        battery.onchargingchange = (e) => {
+            const level = Math.round(battery.level * ONE_HUNDRED), low = level <= 15 ? "low" : "stable", { charging } = battery;
+            batteryEl.innerHTML = updateBattery({ level, low, charging });
+        };
+        const cancelBatteryInfoOnClick = on(".battery-cover .cancel-icon", {
+            click(e) {
+                e.stopPropagation();
+                toggleClass(overlayEl, "hide");
+                addClass(batteryEl, hide_fixed);
+                hasClass(overlayEl, "hide") ? toggleOverflow(false) : toggleOverflow(true);
+                if (hasClass(batteryEl, hide_fixed)) {
+                    const hide = on(batteryEl, {
+                        animationend() {
+                            if (hasClass(this, hide_fixed)) {
+                                rmClass(this, hide_fixed);
+                                addClass(this, "hide");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }).catch((err) => log(err));
+}
+else {
+    batteryEl.innerHTML = `
+  <div class="fx btw center">
+   <h3>Battery usage</h3>
+  <div class="cancel-icon">
+  <img src="assets/icons/x.svg" alt="cancel icon">
+  </div>
+  </div>
+  <span> NOT SUPPORTED </span>
+  `;
+}
 const someOperationsDoneByMenuItems = on(".menu-list div", {
     click(e) {
         switch (this.dataset.menu) {
