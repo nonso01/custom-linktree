@@ -18,6 +18,7 @@ const hide_fixed = "hide-fixed-content";
 const nav = navigator;
 let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/;
 const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s, n) => s !== "");
+log(userAgent);
 const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",
@@ -426,6 +427,14 @@ const dummySpace_3x = dom({
         text: "todo!"
     }
 }, root);
+const test = userAgent.forEach((v, n) => {
+    dom({
+        testing: {
+            node: "div",
+            text: `${n} - ${v}`
+        }
+    }, root);
+});
 const fixIssuesThatAreLeft = on(w, {
     focus() {
         setCssProp(overlayEl, "--overlay-h", getComputed(html).height);

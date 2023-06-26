@@ -58,7 +58,8 @@ const nav = navigator
 let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/
 const platform = nav.platform.split(" ").join(", "),
       userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s: string, n: number) => s !== "")
-// log(userAgent)
+// log(nav)
+log(userAgent)
 
 const themes = Object.freeze({
   dark: {
@@ -571,6 +572,16 @@ const dummySpace_3x = dom({
   }
 }, root)
 
+const test = userAgent.forEach((v: string, n: number) => {
+  
+  dom({
+    testing: {
+      node: "div",
+      text: `${n} - ${v}`
+    }
+  }, root)
+  
+})
 
 // for minor consistency
 const fixIssuesThatAreLeft = on(w, {
