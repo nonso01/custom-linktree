@@ -16,9 +16,8 @@ const minRotation = 0.8, ONE_SEC = 1000, ONE_HUNDRED = 100;
 const linkTreeVersion = "Version 1.5.0";
 const hide_fixed = "hide-fixed-content";
 const nav = navigator;
-let re = /\s+|\(|\)|\;/;
-const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(re).filter((s, n) => s !== "");
-log(userAgent);
+let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/;
+const platform = nav.platform.split(" ").join(", "), userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s, n) => s !== "");
 const themes = Object.freeze({
     dark: {
         "--m-main-bg-color": "#292930",

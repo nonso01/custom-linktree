@@ -55,10 +55,10 @@ const hide_fixed = "hide-fixed-content"
 
 const nav = navigator
 
-let re = /\s+|\(|\)|\;/
+let SPACE_OR_NON_CHAR = /\s+|\(|\)|\;/
 const platform = nav.platform.split(" ").join(", "),
-      userAgent = nav.userAgent.split(re).filter((s: string, n: number) => s !== "")
-log(userAgent)
+      userAgent = nav.userAgent.split(SPACE_OR_NON_CHAR).filter((s: string, n: number) => s !== "")
+// log(userAgent)
 
 const themes = Object.freeze({
   dark: {
