@@ -6,7 +6,7 @@ export function dq(x = "html") {
 export function dqA(x = "img") {
     return d.querySelectorAll(x);
 }
-export function dce(x = 'div') {
+export function dce(x = "div") {
     return d.createElement(x);
 }
 export function len(o) {
@@ -15,7 +15,7 @@ export function len(o) {
 export function on(element, ev) {
     let node = typeof element === "string" ? dqA(element) : element;
     if (node instanceof NodeList) {
-        node.forEach(n => {
+        node.forEach((n) => {
             for (let method in ev) {
                 n.addEventListener(method, ev[method].bind(n));
             }
@@ -73,23 +73,23 @@ export function rmCssProp(el, key) {
 }
 export const socialNetworks = Object.freeze([
     {
-        "url": "https://github.com/nonso01",
-        "img": "/assets/logos/github-mark.svg",
-        "id": "github"
+        url: "https://github.com/nonso01",
+        img: "/assets/logos/github-mark.svg",
+        id: "github",
     },
     {
-        "url": "https://www.linkedin.com/in/nonso-martin-80b221238",
-        "img": "/assets/logos/linkedIn.png",
-        "id": "linkedin"
+        url: "https://www.linkedin.com/in/nonso-martin-80b221238",
+        img: "/assets/logos/linkedIn.png",
+        id: "linkedin",
     },
     {
-        "url": "https://twitter.com/@NonsoMartin6",
-        "img": "/assets/logos/twitter.png",
-        "id": "twitter"
+        url: "https://twitter.com/@NonsoMartin6",
+        img: "/assets/logos/twitter.png",
+        id: "twitter",
     },
     {
-        "url": "https://wa.me/+23407087840213",
-        "img": "/assets/logos/whatsapp-logo.png",
-        "id": "whatsapp"
-    }
+        url: "https://wa.me/+23407087840213",
+        img: "/assets/logos/whatsapp-logo.png",
+        id: "whatsapp",
+    },
 ]);
